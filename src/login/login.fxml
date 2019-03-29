@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="login.Controller">
+<BorderPane focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<center>
+    <BorderPane maxHeight="248.0" maxWidth="200.0" prefHeight="248.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+        <top>
+            <HBox prefHeight="120.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+                <children>
+                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
+                        <children>
+                            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="63.0" text="Usuário" />
+                            <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="63.0" text="Senha" />
+                        </children>
+                        <padding>
+                            <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                        </padding>
+                    </VBox>
+                    <VBox alignment="CENTER" prefHeight="111.0" prefWidth="127.0" spacing="15.0">
+                        <children>
+                            <TextField />
+                            <PasswordField />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+        </top>
+        <bottom>
+            <VBox alignment="CENTER" prefHeight="113.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Button fx:id="btnLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Entrar" onAction="#checkLogin"/>
+                    <Label text=" ">
+                        <font>
+                            <Font size="24.0" />
+                        </font>
+                    </Label>
+                   <!-- <Hyperlink text="Esqueci a senha" />
+                    <Hyperlink text="Esqueci a senha" />-->
+                </children>
+            </VBox>
+        </bottom>
+    </BorderPane>
+</center>
+<top>
+    <VBox alignment="CENTER" prefHeight="84.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+        <children>
+            <Label text=" ">
+                <font>
+                    <Font size="18.0" />
+                </font>
+            </Label>
+            <Label alignment="CENTER" contentDisplay="CENTER" text="Login">
+                <font>
+                    <Font size="48.0" />
+                </font>
+            </Label>
+        </children>
+    </VBox>
+</top>
+</BorderPane>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>
