@@ -37,7 +37,7 @@ public class Controller {
         try {
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//compra_devolucao//compra_devolucao.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Registrar Movimentação");
+            stage.setTitle("Registrar Movimentacao");
             //stage.setMaximized(true);
             stage.setScene(new Scene(loader));
             stage.show();
@@ -63,7 +63,7 @@ public class Controller {
         try {
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//usuario//usuario.fxml"));
             Stage stage = new Stage();
-            stage.setTitle("Gerenciamento de Usuários");
+            stage.setTitle("Gerenciamento de Usuarios");
             //stage.setMaximized(true);
             stage.setScene(new Scene(loader));
             stage.show();
