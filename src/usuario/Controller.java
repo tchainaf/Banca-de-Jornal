@@ -14,16 +14,7 @@ public class Controller {
     public void delUser(ActionEvent actionEvent) {
     }
 
-    public void primeiroUser(ActionEvent actionEvent) {
-    }
-
-    public void antUser(ActionEvent actionEvent) {
-    }
-
-    public void proxUser(ActionEvent actionEvent) {
-    }
-
-    public void ultimoUser(ActionEvent actionEvent) {
+    public void irParaUsuario(ActionEvent actionEvent) {
     }
 
     public void cancelarUser(ActionEvent actionEvent) {

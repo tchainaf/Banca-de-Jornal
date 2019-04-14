@@ -12,8 +12,11 @@ public class Controller {
         try {
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//principal//principal.fxml"));
             Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            tela.setScene(new Scene(loader));
-            tela.show();
+            tela.close();
+            Stage novaTela = new Stage();
+            novaTela.setTitle("Banca de Jornal");
+            novaTela.setScene(new Scene(loader));
+            novaTela.show();
         } catch(Exception e) {
             e.printStackTrace();
         }

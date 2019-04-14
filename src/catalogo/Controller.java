@@ -12,7 +12,30 @@ public class Controller {
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//produto//produto.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Gerenciamento de Produtos");
-            //stage.setMaximized(true);
+            stage.setScene(new Scene(loader));
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void abrirFornecedores(ActionEvent actionEvent) {
+        try {
+            Parent loader = FXMLLoader.load(this.getClass().getResource("..//fornecedor//fornecedor.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Gerenciamento de Fornecedores");
+            stage.setScene(new Scene(loader));
+            stage.show();
+        } catch(Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void abrirUsuarios(ActionEvent actionEvent) {
+        try {
+            Parent loader = FXMLLoader.load(this.getClass().getResource("..//usuario//usuario.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Gerenciamento de Usuários");
             stage.setScene(new Scene(loader));
             stage.show();
         } catch(Exception e) {

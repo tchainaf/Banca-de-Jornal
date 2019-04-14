@@ -2,7 +2,6 @@ package compra_devolucao;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -14,12 +13,12 @@ public class Controller {
 
     public void concluirCompra(ActionEvent actionEvent) {
         try {
-            Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            tela.close();
+            //Limpar tela
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     public void novoProduto(ActionEvent actionEvent) {
         try {
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//produto//produto.fxml"));
@@ -31,4 +30,13 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
+    public void concluirDev(ActionEvent actionEvent) {
+        try {
+            //Limpar tela
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

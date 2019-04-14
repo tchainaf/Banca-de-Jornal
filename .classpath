@@ -2,5 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="output" path="out/production/bancaDeJornal"/>
+	<classpathentry kind="lib" path="lib/jfoenix-9.0.8.jar"/>
+	<classpathentry kind="output" path="out/production/Banca_de_Jornal"/>
 </classpath>

@@ -14,16 +14,7 @@ public class Controller {
     public void delForn(ActionEvent actionEvent) {
     }
 
-    public void primeiroForn(ActionEvent actionEvent) {
-    }
-
-    public void antForn(ActionEvent actionEvent) {
-    }
-
-    public void proxForn(ActionEvent actionEvent) {
-    }
-
-    public void ultimoForn(ActionEvent actionEvent) {
+    public void irParaFornecedor(ActionEvent actionEvent) {
     }
 
     public void cancelarForn(ActionEvent actionEvent) {
