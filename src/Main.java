@@ -1,3 +1,10 @@
+/* Grupo:
+ * Bruno Amorim			RA: 082160008
+ * Jonatas Prado		RA: 082160043
+ * Leticia Lima			RA: 082160028
+ * Thaina Franca		RA: 082160022
+ */
+
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
