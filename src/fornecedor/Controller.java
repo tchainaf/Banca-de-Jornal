@@ -1,5 +1,7 @@
 package fornecedor;
 
+import DAO.FornecedorDAO;
+import VO.FornecedorVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -10,6 +12,8 @@ import javafx.scene.control.TextField;
 import java.util.Optional;
 
 public class Controller {
+    FornecedorDAO dao = new FornecedorDAO();
+
     @FXML
     Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
 
@@ -22,6 +26,7 @@ public class Controller {
     }
 
     public void novoForn(ActionEvent actionEvent) {
+        LimpaCampos();
         HabilitaCampos(true);
     }
 
@@ -33,11 +38,24 @@ public class Controller {
         if(!MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
-        HabilitaCampos(false);
+        if(dao.Deletar(0)) {//txtId.getText()
+            LimpaCampos();
+            HabilitaCampos(false);
+            MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram deletados com sucesso!", false);
+        }
+        else {
+            MessageBox(Alert.AlertType.ERROR, "Erro ao deletar os dados do fornecedor! Tente novamente.", false);
+        }
     }
 
     public void irParaFornecedor(ActionEvent actionEvent) {
         HabilitaCampos(false);
+        FornecedorVO forn = (FornecedorVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
+
+        txtNome.setText(forn.getNome());
+        txtCNPJ.setText(forn.getCNPJ());
+        txtEndereco.setText(forn.getEndereco());
+        txtTelefone.setText(forn.getTelefone());
     }
 
     public void cancelarForn(ActionEvent actionEvent) {
@@ -58,8 +76,28 @@ public class Controller {
                 return;
             }
 
-            HabilitaCampos(false);
-            MessageBox(Alert.AlertType.CONFIRMATION, "Os dados do fornecedor foram salvos com sucesso!", false);
+            FornecedorVO forn = new FornecedorVO();
+            //forn.setId(txtId.getText());
+            forn.setNome(txtNome.getText());
+            forn.setCNPJ(txtCNPJ.getText());
+            forn.setEndereco(txtEndereco.getText());
+            forn.setTelefone(txtTelefone.getText());
+
+            boolean sucesso = false;
+
+            if(true)//Cadastrar ou alterar????
+                sucesso = dao.Inserir(forn);
+            else
+                sucesso = dao.Alterar(forn);
+
+            if(sucesso){
+                HabilitaCampos(false);
+                MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram salvos com sucesso!", false);
+                LimpaCampos();
+            } else {
+                MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor! Tente novamente.", false);
+            }
+
         } catch(Exception e) {
             MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor!", false);
             e.printStackTrace();
@@ -94,7 +132,7 @@ public class Controller {
         }
     }
 
-    private boolean ValidaCampos (){
+    private boolean ValidaCampos () {
         if(txtNome.getLength() < 4)
             return false;
         if(txtCNPJ.getLength() != 14)
@@ -104,6 +142,13 @@ public class Controller {
         if(txtTelefone.getLength() < 8)
             return false;
         return true;
+    }
+
+    private void LimpaCampos () {
+        txtNome.setText(null);
+        txtCNPJ.setText(null);
+        txtEndereco.setText(null);
+        txtTelefone.setText(null);
     }
 
     private boolean MessageBox (Alert.AlertType tipo, String mensagem, boolean botoes){

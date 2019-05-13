@@ -32,13 +32,13 @@
                     </VBox>
                     <VBox alignment="CENTER_LEFT" prefHeight="269.0" prefWidth="151.0" spacing="20.0">
                         <children>
-                            <TextField />
-                            <TextField />
-                            <TextField />
+                            <TextField fx:id="txtNome"/>
+                            <TextField fx:id="txtSenha"/>
+                            <TextField fx:id="txtConfSenha"/>
                      <HBox spacing="10.0" >
                         <children>
-                           <RadioButton mnemonicParsing="false" text="Admin" />
-                           <RadioButton mnemonicParsing="false" text="Comum" />
+                           <RadioButton mnemonicParsing="false" text="Admin" fx:id="rbtnAdmin"/>
+                           <RadioButton mnemonicParsing="false" text="Comum" fx:id="rbtnComum"/>
                         </children>
                      </HBox>
                         </children>
@@ -54,11 +54,11 @@
                 <children>
                     <ToolBar prefHeight="40.0" prefWidth="200.0">
                         <items>
-                            <Button mnemonicParsing="false" onAction="#novoUser" text="Cadastrar" />
-                            <Button disable="true" mnemonicParsing="false" onAction="#altUser" text="Alterar" />
-                            <Button disable="true" mnemonicParsing="false" onAction="#delUser" text="Deletar" />
+                            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#novoUser" text="Cadastrar" />
+                            <Button fx:id="btnAlterar" mnemonicParsing="false" onAction="#altUser" text="Alterar" />
+                            <Button fx:id="btnDeletar" mnemonicParsing="false" onAction="#delUser" text="Deletar" />
                             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="173.0" text="Código do Usuário:" />
-                            <TextField prefHeight="25.0" prefWidth="66.0" />
+                            <TextField fx:id="txtPesquisa" prefHeight="25.0" prefWidth="66.0" />
                             <Button mnemonicParsing="false" onAction="#irParaUsuario" text="Ir" />
                         </items>
                     </ToolBar>
@@ -73,8 +73,8 @@
         <bottom>
             <HBox alignment="TOP_CENTER" prefHeight="63.0" prefWidth="600.0" spacing="100.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Button disable="true" mnemonicParsing="false" onAction="#cancelarUser" prefWidth="80.0" text="Cancelar" />
-                    <Button disable="true" mnemonicParsing="false" onAction="#concluirUser" prefWidth="80.0" text="Salvar" />
+                    <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelarUser" prefWidth="80.0" text="Cancelar" />
+                    <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#concluirUser" prefWidth="80.0" text="Salvar" />
                 </children>
                 <padding>
                     <Insets bottom="20.0" />

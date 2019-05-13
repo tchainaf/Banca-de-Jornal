@@ -89,6 +89,7 @@ public class Controller {
             e.printStackTrace();
         }
     }
+
     @FXML
     Button btnVenda, btnCompra, btnDev, btnProdutos, btnForn, btnUser;
 
