@@ -21,6 +21,7 @@
                 <children>
                     <VBox alignment="CENTER_RIGHT" prefHeight="220.0" prefWidth="151.0" spacing="30.0">
                         <children>
+                            <Label text="Código" />
                             <Label text="Usuário" />
                             <Label text="Senha" />
                             <Label text="Confirmação de Senha" />
@@ -32,6 +33,7 @@
                     </VBox>
                     <VBox alignment="CENTER_LEFT" prefHeight="269.0" prefWidth="151.0" spacing="20.0">
                         <children>
+                            <TextField fx:id="txtCodigo" disable="true"/>
                             <TextField fx:id="txtNome"/>
                             <TextField fx:id="txtSenha"/>
                             <TextField fx:id="txtConfSenha"/>

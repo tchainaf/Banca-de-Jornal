@@ -1,5 +1,7 @@
 package usuario;
 
+import DAO.UsuarioDAO;
+import VO.UsuarioVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -7,11 +9,13 @@ import javafx.scene.control.*;
 import java.util.Optional;
 
 public class Controller {
+    UsuarioDAO dao = new UsuarioDAO();
+
     @FXML
     Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
 
     @FXML
-    TextField txtNome, txtSenha, txtConfSenha, txtPesquisa;
+    TextField txtCodigo, txtNome, txtSenha, txtConfSenha, txtPesquisa;
 
     @FXML
     RadioButton rbtnAdmin, rbtnComum;
@@ -33,12 +37,28 @@ public class Controller {
     public void delUser(ActionEvent actionEvent) {
         if(!MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
-        LimpaCampos();
-        HabilitaCampos(false);
+
+        if(dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
+            LimpaCampos();
+            HabilitaCampos(false);
+            MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram deletados com sucesso!", false);
+        }
+        else {
+            MessageBox(Alert.AlertType.ERROR, "Erro ao deletar os dados do usuário! Tente novamente.", false);
+        }
     }
 
     public void irParaUsuario(ActionEvent actionEvent) {
         HabilitaCampos(false);
+        UsuarioVO user = (UsuarioVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
+
+        txtCodigo.setText(String.valueOf(user.getCodigo()));
+        txtNome.setText(user.getNome());
+        txtSenha.setText(user.getSenha());
+        if(user.isAdmin())
+            rbtnAdmin.setSelected(true);
+        else
+            rbtnComum.setSelected(true);
     }
 
     public void cancelarUser(ActionEvent actionEvent) {
@@ -59,11 +79,29 @@ public class Controller {
                 return;
             }
 
-            HabilitaCampos(false);
-            MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram salvos com sucesso!", false);
-            LimpaCampos();
+            UsuarioVO user = new UsuarioVO();
+            user.setCodigo(Integer.getInteger(txtCodigo.getText()));
+            user.setNome(txtNome.getText());
+            user.setSenha(txtSenha.getText());
+            user.setAdmin(rbtnAdmin.isSelected());
+
+            boolean sucesso = false;
+
+            if(true)//Cadastrar ou alterar????
+                sucesso = dao.Inserir(user);
+            else
+                sucesso = dao.Alterar(user);
+
+            if(sucesso){
+                HabilitaCampos(false);
+                MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram salvos com sucesso!", false);
+                LimpaCampos();
+            } else {
+                MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do usuário! Tente novamente.", false);
+            }
+
         } catch(Exception e) {
-            MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor!", false);
+            MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do usuário!", false);
             e.printStackTrace();
         }
     }
@@ -106,6 +144,8 @@ public class Controller {
         if(txtConfSenha.getLength() < 8)
             return false;
         if(!rbtnAdmin.isSelected() && !rbtnComum.isSelected())
+            return false;
+        if(txtSenha.getText() != txtConfSenha.getText())
             return false;
         return true;
     }

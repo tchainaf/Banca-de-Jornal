@@ -1,13 +1,13 @@
 package VO;
 
 public class PadraoVO {
-    private int id;
+    private int codigo;
 
-    public int getId() {
-        return id;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 }

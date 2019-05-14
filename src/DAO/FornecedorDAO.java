@@ -38,7 +38,7 @@ public class FornecedorDAO extends PadraoDAO {
             FornecedorVO forn = (FornecedorVO) obj;
             CallableStatement stm = conn.prepareCall("SP_ALTER_" + tabela);
 
-            stm.setInt("Id", forn.getId());
+            stm.setInt("Id", forn.getCodigo());
             stm.setString("Nome", forn.getNome());
             stm.setString("Cnpj", forn.getCNPJ());
             stm.setString("Endereco", forn.getEndereco());
@@ -73,7 +73,7 @@ public class FornecedorDAO extends PadraoDAO {
             ResultSet result = stm.executeQuery();
 
             FornecedorVO forn = new FornecedorVO();
-            forn.setId(result.getInt("Id"));
+            forn.setCodigo(result.getInt("Id"));
             forn.setNome(result.getString("Nome"));
             forn.setCNPJ(result.getString("Cnpj"));
             forn.setEndereco(result.getString("Endereco"));

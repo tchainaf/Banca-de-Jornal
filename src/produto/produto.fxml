@@ -32,10 +32,10 @@
                     </VBox>
                     <VBox alignment="CENTER_LEFT" prefHeight="269.0" prefWidth="151.0" spacing="20.0">
                         <children>
-                            <TextField />
-                            <TextField />
-                     <ComboBox prefWidth="150.0" />
-                            <TextField />
+                            <TextField fx:id="txtCodigo" disable="true"/>
+                            <TextField fx:id="txtDescricao"/>
+                            <ComboBox fx:id="cbxFornecedor" prefWidth="150.0" />
+                            <TextField fx:id="txtPreco"/>
                         </children>
                         <padding>
                             <Insets left="10.0" />
@@ -49,11 +49,11 @@
                 <children>
                     <ToolBar prefHeight="40.0" prefWidth="200.0">
                         <items>
-                            <Button mnemonicParsing="false" onAction="#novoProduto" text="Cadastrar" />
-                            <Button disable="true" mnemonicParsing="false" onAction="#altProduto" text="Alterar" />
-                            <Button disable="true" mnemonicParsing="false" onAction="#delProduto" text="Deletar" />
+                            <Button fx:id="btnCadastrar" mnemonicParsing="false" onAction="#novoProduto" text="Cadastrar" />
+                            <Button fx:id="btnAlterar" mnemonicParsing="false" onAction="#altProduto" text="Alterar" />
+                            <Button fx:id="btnDeletar" mnemonicParsing="false" onAction="#delProduto" text="Deletar" />
                             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="173.0" text="Código do Produto:" />
-                            <TextField prefHeight="25.0" prefWidth="66.0" />
+                            <TextField fx:id="txtPesquisa" prefHeight="25.0" prefWidth="66.0" />
                             <Button mnemonicParsing="false" onAction="#irParaProduto" text="Ir" />
                         </items>
                     </ToolBar>
@@ -68,8 +68,8 @@
         <bottom>
             <HBox alignment="TOP_CENTER" prefHeight="63.0" prefWidth="600.0" spacing="100.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Button disable="true" mnemonicParsing="false" onAction="#cancelarProduto" prefWidth="80.0" text="Cancelar" />
-                    <Button disable="true" mnemonicParsing="false" onAction="#concluirProduto" prefWidth="80.0" text="Salvar" />
+                    <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelarProduto" prefWidth="80.0" text="Cancelar" />
+                    <Button fx:id="btnSalvar" mnemonicParsing="false" onAction="#concluirProduto" prefWidth="80.0" text="Salvar" />
                 </children>
                 <padding>
                     <Insets bottom="20.0" />

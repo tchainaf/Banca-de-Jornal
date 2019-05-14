@@ -18,7 +18,7 @@ public class Controller {
     Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
 
     @FXML
-    TextField txtNome, txtCNPJ, txtEndereco, txtTelefone, txtPesquisa;
+    TextField txtCodigo, txtNome, txtCNPJ, txtEndereco, txtTelefone, txtPesquisa;
 
     @FXML
     public void initialize() {
@@ -38,7 +38,7 @@ public class Controller {
         if(!MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
-        if(dao.Deletar(0)) {//txtId.getText()
+        if(dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
             LimpaCampos();
             HabilitaCampos(false);
             MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram deletados com sucesso!", false);
@@ -52,6 +52,7 @@ public class Controller {
         HabilitaCampos(false);
         FornecedorVO forn = (FornecedorVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
 
+        txtCodigo.setText(String.valueOf(forn.getCodigo()));
         txtNome.setText(forn.getNome());
         txtCNPJ.setText(forn.getCNPJ());
         txtEndereco.setText(forn.getEndereco());
@@ -77,7 +78,7 @@ public class Controller {
             }
 
             FornecedorVO forn = new FornecedorVO();
-            //forn.setId(txtId.getText());
+            forn.setCodigo(Integer.getInteger(txtCodigo.getText()));
             forn.setNome(txtNome.getText());
             forn.setCNPJ(txtCNPJ.getText());
             forn.setEndereco(txtEndereco.getText());
