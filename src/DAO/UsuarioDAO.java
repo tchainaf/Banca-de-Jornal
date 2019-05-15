@@ -1,7 +1,7 @@
 package DAO;
 
 import VO.*;
-import util.DBUtil;
+import util.Database;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,21 @@ public class UsuarioDAO extends PadraoDAO {
 
     public UsuarioDAO() {
         tabela = "tbUSUARIO";
-        conn = DBUtil.getConnection();
+        conn = Database.getConnection();
+    }
+
+    public static boolean Login(String user, String senha){
+        try {
+            CallableStatement stm = conn.prepareCall("SP_LOGIN");
+            stm.setString("User", user);
+            stm.setString("Senha", senha);
+
+            return stm.execute();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
     @Override

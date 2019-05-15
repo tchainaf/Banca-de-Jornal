@@ -3,26 +3,26 @@ package DAO;
 import VO.PadraoVO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public abstract class PadraoDAO {
     protected static Connection conn;
     protected static String tabela;
 
-    public static List<PadraoVO> Listar(){
-        List<PadraoVO> list = new ArrayList<PadraoVO>();
-        try{
+    public static ObservableList<PadraoVO> Listar() {
+        ObservableList<PadraoVO> list = FXCollections.observableArrayList();
+        try {
             CallableStatement stm = conn.prepareCall("SP_LIST_" + tabela);
             ResultSet result = stm.executeQuery();
-            while (result.next()){
+            while (result.next()) {
                 PadraoVO obj = new PadraoVO();
-                obj.setId(result.getInt("ID"));
+                obj.setCodigo(result.getInt("ID"));
                 list.add(obj);
             }
             return list;
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }

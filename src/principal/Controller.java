@@ -1,5 +1,8 @@
 package principal;
 
+import DAO.*;
+import VO.*;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -7,12 +10,17 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.TableView;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Controller {
+
     @FXML
     BorderPane tela;
+
+    @FXML
+    TableView tbProdutos, tbFornecedores, tbUsuarios;
 
     public void abrirVenda(ActionEvent actionEvent) {
         try {
@@ -29,6 +37,11 @@ public class Controller {
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//catalogo//produtos.fxml"));
             tela.setCenter(loader);
+
+            ProdutoDAO prodDAO = new ProdutoDAO();
+            ObservableList<PadraoVO> list = prodDAO.Listar(); //.forEach(item -> (ProdutoVO)item)
+            tbProdutos.setItems(list);
+
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -60,6 +73,11 @@ public class Controller {
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//catalogo//fornecedores.fxml"));
             tela.setCenter(loader);
+
+            FornecedorDAO fornDAO = new FornecedorDAO();
+            ObservableList<PadraoVO> list = fornDAO.Listar(); //.forEach(item -> (FornecedorVO)item)
+            tbFornecedores.setItems(list);
+
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -70,11 +88,15 @@ public class Controller {
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//catalogo//usuarios.fxml"));
             tela.setCenter(loader);
+
+            UsuarioDAO userDAO = new UsuarioDAO();
+            ObservableList<PadraoVO> list = userDAO.Listar(); //.forEach(item -> (UsuarioVO)item)
+            tbUsuarios.setItems(list);
+
         } catch(Exception e) {
             e.printStackTrace();
         }
     }
-
 
     public void sair(ActionEvent actionEvent) {
         try {

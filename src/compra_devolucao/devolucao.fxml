@@ -4,7 +4,6 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.control.TextField?>
@@ -21,7 +20,7 @@
                 <children>
                     <HBox alignment="CENTER" spacing="10.0">
                         <Label text="Fornecedor" />
-                        <ComboBox prefWidth="150.0" />
+                        <ComboBox fx:id="cbxFornecedores" prefWidth="150.0" />
                     </HBox>
                     <Button mnemonicParsing="false" onAction="#listarItens" prefHeight="30.0" prefWidth="120.0" text="Listar Produtos" />
                 </children>
@@ -30,22 +29,8 @@
                 </padding>
             </HBox>
         </top>
-        <bottom>
-            <HBox alignment="CENTER" spacing="150.0" BorderPane.alignment="CENTER">
-                <children>
-                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
-                        <Label alignment="BOTTOM_RIGHT" prefHeight="17.0" prefWidth="60.0" text="Valor Total" />
-                        <TextField disable="true" maxWidth="-Infinity" prefWidth="100.0" />
-                    </HBox>
-                    <Button mnemonicParsing="false" onAction="#concluirDev" prefHeight="30.0" prefWidth="70.0" text="Salvar" />
-                </children>
-                <padding>
-                    <Insets bottom="20.0" top="10.0" />
-                </padding>
-            </HBox>
-        </bottom>
         <center>
-            <TableView BorderPane.alignment="CENTER">
+            <TableView BorderPane.alignment="CENTER" fx:id="tbItens">
                 <columns>
                     <TableColumn prefWidth="464.0" text="Item" />
                     <TableColumn minWidth="0.0" prefWidth="94.0" text="Quantidade" />
@@ -54,6 +39,20 @@
                 </columns>
             </TableView>
         </center>
+        <bottom>
+            <HBox alignment="CENTER" spacing="150.0" BorderPane.alignment="CENTER">
+                <children>
+                    <HBox alignment="CENTER_RIGHT" spacing="10.0">
+                        <Label alignment="BOTTOM_RIGHT" prefHeight="17.0" prefWidth="60.0" text="Valor Total" />
+                        <TextField fx:id="txtValorTotal" disable="true" maxWidth="-Infinity" prefWidth="100.0" />
+                    </HBox>
+                    <Button mnemonicParsing="false" onAction="#concluirDev" prefHeight="30.0" prefWidth="70.0" text="Salvar" />
+                </children>
+                <padding>
+                    <Insets bottom="20.0" top="10.0" />
+                </padding>
+            </HBox>
+        </bottom>
     </BorderPane>
     <columnConstraints>
         <ColumnConstraints />

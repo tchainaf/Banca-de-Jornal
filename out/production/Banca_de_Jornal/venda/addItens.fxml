@@ -32,11 +32,11 @@
                     </VBox>
                     <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="146.0" spacing="20.0">
                         <children>
-                            <ComboBox prefWidth="150.0" />
+                            <ComboBox onAction="#changeItem" fx:id="cbxItens" prefWidth="150.0" />
                      <HBox alignment="CENTER_LEFT" spacing="10.0">
                         <children>
-                                  <TextField maxWidth="-Infinity" prefWidth="50.0" />
-                           <Label text="Em estoque: 00" />
+                            <TextField styleClass="number" fx:id="txtQtde" maxWidth="-Infinity" prefWidth="50.0" />
+                            <Label fx:id="lblEstoque" text="Em estoque: 00" />
                         </children>
                      </HBox>
                         </children>

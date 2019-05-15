@@ -1,12 +1,11 @@
 package usuario;
 
-import DAO.UsuarioDAO;
-import VO.UsuarioVO;
+import DAO.*;
+import VO.*;
+import util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import java.util.Optional;
 
 public class Controller {
     UsuarioDAO dao = new UsuarioDAO();
@@ -35,16 +34,15 @@ public class Controller {
     }
 
     public void delUser(ActionEvent actionEvent) {
-        if(!MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
+        if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
-        if(dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
+        if (dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
             LimpaCampos();
             HabilitaCampos(false);
-            MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram deletados com sucesso!", false);
-        }
-        else {
-            MessageBox(Alert.AlertType.ERROR, "Erro ao deletar os dados do usuário! Tente novamente.", false);
+            Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram deletados com sucesso!", false);
+        } else {
+            Show.MessageBox(Alert.AlertType.ERROR, "Erro ao deletar os dados do usuário! Tente novamente.", false);
         }
     }
 
@@ -55,7 +53,7 @@ public class Controller {
         txtCodigo.setText(String.valueOf(user.getCodigo()));
         txtNome.setText(user.getNome());
         txtSenha.setText(user.getSenha());
-        if(user.isAdmin())
+        if (user.isAdmin())
             rbtnAdmin.setSelected(true);
         else
             rbtnComum.setSelected(true);
@@ -63,19 +61,19 @@ public class Controller {
 
     public void cancelarUser(ActionEvent actionEvent) {
         try {
-            if(!MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
+            if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
             HabilitaCampos(false);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     public void concluirUser(ActionEvent actionEvent) {
         try {
-            if(!ValidaCampos()) {
-                MessageBox(Alert.AlertType.ERROR, "Preencha todos os campos!", false);
+            if (!ValidaCampos()) {
+                Show.MessageBox(Alert.AlertType.ERROR, "Preencha todos os campos!", false);
                 return;
             }
 
@@ -87,27 +85,27 @@ public class Controller {
 
             boolean sucesso = false;
 
-            if(true)//Cadastrar ou alterar????
+            if (user.getCodigo() == 0)
                 sucesso = dao.Inserir(user);
             else
                 sucesso = dao.Alterar(user);
 
-            if(sucesso){
+            if (sucesso) {
                 HabilitaCampos(false);
-                MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram salvos com sucesso!", false);
+                Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram salvos com sucesso!", false);
                 LimpaCampos();
             } else {
-                MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do usuário! Tente novamente.", false);
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do usuário! Tente novamente.", false);
             }
 
-        } catch(Exception e) {
-            MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do usuário!", false);
+        } catch (Exception e) {
+            Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do usuário!", false);
             e.printStackTrace();
         }
     }
 
-    private void HabilitaCampos (boolean edit){
-        if(edit) {
+    private void HabilitaCampos(boolean edit) {
+        if (edit) {
             btnCadastrar.setDisable(true);
             btnAlterar.setDisable(true);
             btnDeletar.setDisable(true);
@@ -136,41 +134,25 @@ public class Controller {
         }
     }
 
-    private boolean ValidaCampos () {
-        if(txtNome.getLength() < 4)
+    private boolean ValidaCampos() {
+        if (txtNome.getLength() < 4)
             return false;
-        if(txtSenha.getLength() != 14)
+        if (txtSenha.getLength() < 8)
             return false;
-        if(txtConfSenha.getLength() < 8)
+        if (txtConfSenha.getLength() < 8)
             return false;
-        if(!rbtnAdmin.isSelected() && !rbtnComum.isSelected())
+        if (!rbtnAdmin.isSelected() && !rbtnComum.isSelected())
             return false;
-        if(txtSenha.getText() != txtConfSenha.getText())
+        if (txtSenha.getText() != txtConfSenha.getText())
             return false;
         return true;
     }
 
-    private void LimpaCampos () {
+    private void LimpaCampos() {
         txtNome.setText(null);
         txtSenha.setText(null);
         txtConfSenha.setText(null);
         rbtnAdmin.setSelected(false);
         rbtnComum.setSelected(false);
-    }
-
-    private boolean MessageBox (Alert.AlertType tipo, String mensagem, boolean botoes){
-        Alert msg;
-        if(!botoes) {
-            msg = new Alert(tipo, mensagem);
-            msg.setHeaderText(null);
-            msg.show();
-        } else {
-            msg = new Alert(tipo, mensagem, ButtonType.YES, ButtonType.NO);
-            msg.setHeaderText(null);
-            Optional<ButtonType> result = msg.showAndWait();
-            if(result.isPresent() && result.get() == ButtonType.YES)
-                return true;
-        }
-        return false;
     }
 }

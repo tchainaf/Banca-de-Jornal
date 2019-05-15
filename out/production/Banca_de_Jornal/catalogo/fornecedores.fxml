@@ -13,13 +13,13 @@
 <GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalogo.Controller">
     <BorderPane minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
         <center>
-            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER">
+            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER" fx:id="tbFornecedores">
                 <columns>
-                    <TableColumn prefWidth="55.0" text="Código" />
-                    <TableColumn prefWidth="250.0" text="Nome" />
-                    <TableColumn minWidth="0.0" prefWidth="210.0" text="CNPJ" />
-                    <TableColumn minWidth="0.0" prefWidth="190.0" text="Endereço" />
-                    <TableColumn prefWidth="94.0" text="Telefone" />
+                    <TableColumn fx:id="colCodigo" prefWidth="55.0" text="Código" />
+                    <TableColumn fx:id="colNome" prefWidth="250.0" text="Nome" />
+                    <TableColumn fx:id="colCNPJ" minWidth="0.0" prefWidth="210.0" text="CNPJ" />
+                    <TableColumn fx:id="colEndereco" minWidth="0.0" prefWidth="190.0" text="Endereço" />
+                    <TableColumn fx:id="colTelefone" prefWidth="94.0" text="Telefone" />
                 </columns>
             </TableView>
         </center>

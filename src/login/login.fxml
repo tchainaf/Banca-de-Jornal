@@ -31,8 +31,8 @@
                     </VBox>
                     <VBox alignment="CENTER" prefHeight="111.0" prefWidth="127.0" spacing="15.0">
                         <children>
-                            <TextField />
-                            <PasswordField />
+                            <TextField fx:id="txtUser" />
+                            <TextField fx:id="txtSenha" />
                         </children>
                     </VBox>
                 </children>
@@ -47,8 +47,6 @@
                             <Font size="24.0" />
                         </font>
                     </Label>
-                   <!-- <Hyperlink text="Esqueci a senha" />
-                    <Hyperlink text="Esqueci a senha" />-->
                 </children>
             </VBox>
         </bottom>

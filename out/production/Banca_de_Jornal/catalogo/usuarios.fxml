@@ -13,12 +13,12 @@
 <GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalogo.Controller">
     <BorderPane minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
         <center>
-            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER">
+            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER" fx:id="tbUsuarios">
                 <columns>
-                    <TableColumn prefWidth="60.0" text="Código" />
-                    <TableColumn prefWidth="320.0" text="Usuário" />
-                    <TableColumn minWidth="0.0" prefWidth="230.0" text="Senha" />
-                    <TableColumn minWidth="0.0" prefWidth="187.0" text="Tipo de Acesso" />
+                    <TableColumn fx:id="colCodigo" prefWidth="60.0" text="Código" />
+                    <TableColumn fx:id="colNome" prefWidth="320.0" text="Usuário" />
+                    <TableColumn fx:id="colSenha" minWidth="0.0" prefWidth="230.0" text="Senha" />
+                    <TableColumn fx:id="colAcesso" minWidth="0.0" prefWidth="187.0" text="Tipo de Acesso" />
                 </columns>
             </TableView>
         </center>

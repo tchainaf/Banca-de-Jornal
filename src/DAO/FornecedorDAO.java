@@ -1,7 +1,7 @@
 package DAO;
 
 import VO.*;
-import util.DBUtil;
+import util.Database;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
@@ -10,7 +10,7 @@ public class FornecedorDAO extends PadraoDAO {
 
     public FornecedorDAO() {
         tabela = "tbFORNECEDOR";
-        conn = DBUtil.getConnection();
+        conn = Database.getConnection();
     }
 
     @Override

@@ -13,13 +13,13 @@
 <GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalogo.Controller">
     <BorderPane minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
         <center>
-            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER">
+            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER" fx:id="tbProdutos">
                 <columns>
-                    <TableColumn prefWidth="54.0" text="Código" />
-                    <TableColumn prefWidth="316.0" text="Descrição" />
-                    <TableColumn minWidth="0.0" prefWidth="230.0" text="Fornecedor" />
-                    <TableColumn minWidth="0.0" prefWidth="103.0" text="Preço Unitário" />
-                    <TableColumn prefWidth="95.0" text="Qtde. Estoque" />
+                    <TableColumn fx:id="colCodigo" prefWidth="54.0" text="Código" />
+                    <TableColumn fx:id="colDescricao" prefWidth="316.0" text="Descrição" />
+                    <TableColumn fx:id="colFornecedor" minWidth="0.0" prefWidth="230.0" text="Fornecedor" />
+                    <TableColumn fx:id="colPreco" minWidth="0.0" prefWidth="103.0" text="Preço Unitário" />
+                    <TableColumn fx:id="colQtde" prefWidth="95.0" text="Qtde. Estoque" />
                 </columns>
             </TableView>
         </center>

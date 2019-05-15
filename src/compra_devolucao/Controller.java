@@ -1,19 +1,34 @@
 package compra_devolucao;
 
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 public class Controller {
+    @FXML
+    ComboBox cbxFornecedores;
+
+    @FXML
+    TableView tbItens;
+
+    @FXML
+    TextField txtValorTotal;
 
     public void listarItens(ActionEvent actionEvent) {
+        //preencher combobox
     }
 
     public void concluirCompra(ActionEvent actionEvent) {
         try {
-            //Limpar tela
+
+            tbItens.setItems(null);
+            txtValorTotal.setText(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -33,10 +48,11 @@ public class Controller {
 
     public void concluirDev(ActionEvent actionEvent) {
         try {
-            //Limpar tela
+
+            tbItens.setItems(null);
+            txtValorTotal.setText(null);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
-
 }

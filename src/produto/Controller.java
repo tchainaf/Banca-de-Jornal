@@ -1,12 +1,11 @@
 package produto;
 
 import DAO.*;
-import VO.ProdutoVO;
+import VO.*;
+import util.*;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import java.util.Optional;
 
 public class Controller {
     ProdutoDAO dao = new ProdutoDAO();
@@ -35,15 +34,15 @@ public class Controller {
     }
 
     public void delProduto(ActionEvent actionEvent) {
-        if (!MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
+        if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
         if (dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
             LimpaCampos();
             HabilitaCampos(false);
-            MessageBox(Alert.AlertType.INFORMATION, "Os dados do produto foram deletados com sucesso!", false);
+            Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do produto foram deletados com sucesso!", false);
         } else {
-            MessageBox(Alert.AlertType.ERROR, "Erro ao deletar os dados do produto! Tente novamente.", false);
+            Show.MessageBox(Alert.AlertType.ERROR, "Erro ao deletar os dados do produto! Tente novamente.", false);
         }
     }
 
@@ -59,7 +58,7 @@ public class Controller {
 
     public void cancelarProduto(ActionEvent actionEvent) {
         try {
-            if (!MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
+            if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
             HabilitaCampos(false);
@@ -70,8 +69,10 @@ public class Controller {
 
     public void concluirProduto(ActionEvent actionEvent) {
         try {
-            if (!MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
+            if (!ValidaCampos()) {
+                Show.MessageBox(Alert.AlertType.ERROR, "Preencha todos os campos!", false);
                 return;
+            }
 
             ProdutoVO prod = new ProdutoVO();
             prod.setCodigo(Integer.getInteger(txtCodigo.getText()));
@@ -81,21 +82,21 @@ public class Controller {
 
             boolean sucesso = false;
 
-            if(true)//Cadastrar ou alterar????
+            if (prod.getCodigo() == 0)
                 sucesso = dao.Inserir(prod);
             else
                 sucesso = dao.Alterar(prod);
 
-            if(sucesso){
+            if (sucesso) {
                 HabilitaCampos(false);
-                MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram salvos com sucesso!", false);
+                Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram salvos com sucesso!", false);
                 LimpaCampos();
             } else {
-                MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor! Tente novamente.", false);
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor! Tente novamente.", false);
             }
 
-        } catch(Exception e) {
-            MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor!", false);
+        } catch (Exception e) {
+            Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor!", false);
             e.printStackTrace();
         }
     }
@@ -127,13 +128,11 @@ public class Controller {
     }
 
     private boolean ValidaCampos() {
-        if (txtCodigo.getLength() < 4)
-            return false;
-        if (txtDescricao.getLength() != 14)
+        if (txtDescricao.getLength() < 10)
             return false;
         if (cbxFornecedor.getValue() == null)
             return false;
-        if (txtPreco.getLength() < 8)
+        if (txtPreco.getLength() < 3)
             return false;
         return true;
     }
@@ -143,21 +142,5 @@ public class Controller {
         txtDescricao.setText(null);
         cbxFornecedor.setValue(null);
         txtPreco.setText(null);
-    }
-
-    private boolean MessageBox(Alert.AlertType tipo, String mensagem, boolean botoes) {
-        Alert msg;
-        if (!botoes) {
-            msg = new Alert(tipo, mensagem);
-            msg.setHeaderText(null);
-            msg.show();
-        } else {
-            msg = new Alert(tipo, mensagem, ButtonType.YES, ButtonType.NO);
-            msg.setHeaderText(null);
-            Optional<ButtonType> result = msg.showAndWait();
-            if (result.isPresent() && result.get() == ButtonType.YES)
-                return true;
-        }
-        return false;
     }
 }

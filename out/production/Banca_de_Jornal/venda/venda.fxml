@@ -15,7 +15,7 @@
 <GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="venda.Controller">
     <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
         <center>
-            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <TableView prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" fx:id="tbItens">
                 <columns>
                     <TableColumn prefWidth="460.0" text="Item" />
                     <TableColumn minWidth="0.0" prefWidth="91.0" text="Quantidade" />
@@ -31,7 +31,7 @@
                         <Button alignment="TOP_CENTER" contentDisplay="CENTER" mnemonicParsing="false" text="Adicionar Produto do Catálogo" onAction="#abrirAddItem"/>
                         <HBox alignment="CENTER_RIGHT" spacing="10.0">
                             <Label alignment="BOTTOM_RIGHT" prefHeight="17.0" prefWidth="60.0" text="Valor Total" />
-                            <TextField disable="true" maxWidth="-Infinity" prefWidth="150.0" />
+                            <TextField fx:id="txtValorTotal" disable="true" maxWidth="-Infinity" prefWidth="150.0" />
                         </HBox>
                     </children>
                     <BorderPane.margin>
@@ -45,15 +45,15 @@
                     <children>
                         <HBox alignment="CENTER" spacing="10.0">
                             <Label text="Forma de Pagamento" />
-                            <ComboBox prefWidth="150.0" />
+                            <ComboBox onAction="#changePagamento" fx:id="cbxPagamento" prefWidth="150.0" />
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                             <Label text="Valor Pago" />
-                            <TextField maxWidth="-Infinity" prefWidth="80.0" />
+                            <TextField fx:id="txtValorPago" maxWidth="-Infinity" prefWidth="80.0" />
                         </HBox>
                         <HBox alignment="CENTER" spacing="10.0">
                             <Label text="Troco" />
-                            <TextField disable="true" maxWidth="-Infinity" prefWidth="80.0" />
+                            <TextField fx:id="txtTroco" disable="true" maxWidth="-Infinity" prefWidth="80.0" />
                         </HBox>
                         <Button mnemonicParsing="false" prefWidth="100.0" text="Concluir Venda" onAction="#concluirVenda"/>
                     </children>
