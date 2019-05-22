@@ -40,7 +40,8 @@ public class Controller {
 
             ProdutoDAO prodDAO = new ProdutoDAO();
             ObservableList<PadraoVO> list = prodDAO.Listar(); //.forEach(item -> (ProdutoVO)item)
-            tbProdutos.setItems(list);
+            if(list != null)
+                tbProdutos.setItems(list);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -76,7 +77,8 @@ public class Controller {
 
             FornecedorDAO fornDAO = new FornecedorDAO();
             ObservableList<PadraoVO> list = fornDAO.Listar(); //.forEach(item -> (FornecedorVO)item)
-            tbFornecedores.setItems(list);
+            if(list != null)
+                tbFornecedores.setItems(list);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -91,7 +93,8 @@ public class Controller {
 
             UsuarioDAO userDAO = new UsuarioDAO();
             ObservableList<PadraoVO> list = userDAO.Listar(); //.forEach(item -> (UsuarioVO)item)
-            tbUsuarios.setItems(list);
+            if(list != null)
+                tbUsuarios.setItems(list);
 
         } catch(Exception e) {
             e.printStackTrace();
@@ -100,12 +103,11 @@ public class Controller {
 
     public void sair(ActionEvent actionEvent) {
         try {
-            Parent loader = FXMLLoader.load(this.getClass().getResource("..//login//login.fxml"));
             Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
             tela.close();
             Stage novaTela = new Stage();
             novaTela.setTitle("Banca de Jornal");
-            novaTela.setScene(new Scene(loader));
+            novaTela.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("..//login//login.fxml"))));
             novaTela.show();
         } catch(Exception e) {
             e.printStackTrace();

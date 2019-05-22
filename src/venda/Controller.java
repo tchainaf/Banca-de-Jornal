@@ -1,5 +1,6 @@
 package venda;
 
+import VO.ProdutoVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,8 +24,20 @@ public class Controller {
     @FXML
     Label lblEstoque;
 
+    public double valorTotal = 0;
+    public ProdutoVO produto;
+
     public void concluirVenda(ActionEvent actionEvent) {
         try {
+
+            //chamar DAO para salvar
+
+            if(true) { //erro
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da venda! Tente novamente.", false);
+                return;
+            }
+
+            Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados da venda foram salvos com sucesso!", false);
 
             tbItens.setItems(null);
             cbxPagamento.setValue(null);
@@ -44,7 +57,7 @@ public class Controller {
             stage.setScene(new Scene(loader));
             stage.show();
 
-            //preencher cbxItens se tiver vazio
+            //preencher lista de itens se tiver nula
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -61,10 +74,12 @@ public class Controller {
             }
 
             Object item = cbxItens.getValue();
-            int qtde = Integer.getInteger(txtQtde.getText());
+            int qtde = Integer.getInteger(txtQtde.getText().trim());
+            double precoQtde = qtde * produto.getPreco();
 
-            //adicionar item no tbItens
-            //alterar valor total
+            //adicionar item no tbItens os dados do produto
+
+            valorTotal += precoQtde;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -81,7 +96,10 @@ public class Controller {
     }
 
     public void changeItem(ActionEvent actionEvent) {
+        //chamar DAO para buscar informações do item e preencher variavel produto
 
-        lblEstoque.setText("Em estoque: "); // + item.Qtde
+        produto = new ProdutoVO();
+
+        lblEstoque.setText("Em estoque: " + produto.getQtdeEstoque());
     }
 }

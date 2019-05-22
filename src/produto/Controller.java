@@ -50,6 +50,11 @@ public class Controller {
         HabilitaCampos(false);
         ProdutoVO prod = (ProdutoVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
 
+        if(prod == null){
+            Show.MessageBox(Alert.AlertType.WARNING, "Esse produto não foi encontrado!", false);
+            return;
+        }
+
         txtCodigo.setText(String.valueOf(prod.getCodigo()));
         txtDescricao.setText(prod.getDescricao());
         cbxFornecedor.setValue(prod.getFornecedor());
@@ -61,6 +66,8 @@ public class Controller {
             if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
+            //chamar DAO para buscar dados do id e preencher novamente a tela
+
             HabilitaCampos(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,13 +76,14 @@ public class Controller {
 
     public void concluirProduto(ActionEvent actionEvent) {
         try {
-            if (!ValidaCampos()) {
-                Show.MessageBox(Alert.AlertType.ERROR, "Preencha todos os campos!", false);
+            String msg = ValidaCampos();
+            if (msg != null) {
+                Show.MessageBox(Alert.AlertType.ERROR, msg, false);
                 return;
             }
 
             ProdutoVO prod = new ProdutoVO();
-            prod.setCodigo(Integer.getInteger(txtCodigo.getText()));
+            prod.setCodigo(Integer.getInteger(txtCodigo.getText().isEmpty()? "0" : txtCodigo.getText().trim()));
             prod.setDescricao(txtDescricao.getText());
             prod.setFornecedor(0); //cbxFornecedor.getValue()
             prod.setPreco(Double.valueOf(txtPreco.getText()));
@@ -127,14 +135,14 @@ public class Controller {
         }
     }
 
-    private boolean ValidaCampos() {
+    private String ValidaCampos() {
         if (txtDescricao.getLength() < 10)
-            return false;
+            return "A descrição deve ter no mínimo 10 caracteres!";
         if (cbxFornecedor.getValue() == null)
-            return false;
+            return "Selecione um fornecedor!";
         if (txtPreco.getLength() < 3)
-            return false;
-        return true;
+            return "Informe o preço unitário do produto!";
+        return null;
     }
 
     private void LimpaCampos() {

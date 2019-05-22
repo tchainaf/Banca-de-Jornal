@@ -49,6 +49,11 @@ public class Controller {
         HabilitaCampos(false);
         FornecedorVO forn = (FornecedorVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
 
+        if(forn == null){
+            Show.MessageBox(Alert.AlertType.WARNING, "Esse fornecedor não foi encontrado!", false);
+            return;
+        }
+
         txtCodigo.setText(String.valueOf(forn.getCodigo()));
         txtNome.setText(forn.getNome());
         txtCNPJ.setText(forn.getCNPJ());
@@ -61,6 +66,8 @@ public class Controller {
             if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
+            //chamar DAO para buscar dados do id e preencher novamente a tela
+
             HabilitaCampos(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -69,13 +76,14 @@ public class Controller {
 
     public void concluirForn(ActionEvent actionEvent) {
         try {
-            if (!ValidaCampos()) {
-                Show.MessageBox(Alert.AlertType.ERROR, "Preencha todos os campos!", false);
+            String msg = ValidaCampos();
+            if (msg != null) {
+                Show.MessageBox(Alert.AlertType.ERROR, msg, false);
                 return;
             }
 
             FornecedorVO forn = new FornecedorVO();
-            forn.setCodigo(Integer.getInteger(txtCodigo.getText()));
+            forn.setCodigo(Integer.getInteger(txtCodigo.getText().isEmpty()? "0" : txtCodigo.getText().trim()));
             forn.setNome(txtNome.getText());
             forn.setCNPJ(txtCNPJ.getText());
             forn.setEndereco(txtEndereco.getText());
@@ -130,16 +138,16 @@ public class Controller {
         }
     }
 
-    private boolean ValidaCampos() {
+    private String ValidaCampos() {
         if (txtNome.getLength() < 5)
-            return false;
+            return "A razão social deve ter no mínimo 5 caracteres!";
         if (txtCNPJ.getLength() != 14)
-            return false;
+            return "O CNPJ deve ter 14 caracteres!";
         if (txtEndereco.getLength() < 8)
-            return false;
+            return "O endereço deve ter no mínimo 8 caracteres!";
         if (txtTelefone.getLength() < 8)
-            return false;
-        return true;
+            return "O telefone deve ter no mínimo 8 caracteres!";
+        return null;
     }
 
     private void LimpaCampos() {

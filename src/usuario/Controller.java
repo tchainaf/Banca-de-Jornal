@@ -50,6 +50,11 @@ public class Controller {
         HabilitaCampos(false);
         UsuarioVO user = (UsuarioVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
 
+        if(user == null){
+            Show.MessageBox(Alert.AlertType.WARNING, "Esse usuário não foi encontrado!", false);
+            return;
+        }
+
         txtCodigo.setText(String.valueOf(user.getCodigo()));
         txtNome.setText(user.getNome());
         txtSenha.setText(user.getSenha());
@@ -64,6 +69,8 @@ public class Controller {
             if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
+            //chamar DAO para buscar dados do id e preencher novamente a tela
+
             HabilitaCampos(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,13 +79,14 @@ public class Controller {
 
     public void concluirUser(ActionEvent actionEvent) {
         try {
-            if (!ValidaCampos()) {
-                Show.MessageBox(Alert.AlertType.ERROR, "Preencha todos os campos!", false);
+            String msg = ValidaCampos();
+            if (msg != null) {
+                Show.MessageBox(Alert.AlertType.ERROR, msg, false);
                 return;
             }
 
             UsuarioVO user = new UsuarioVO();
-            user.setCodigo(Integer.getInteger(txtCodigo.getText()));
+            user.setCodigo(Integer.getInteger(txtCodigo.getText().isEmpty()? "0" : txtCodigo.getText().trim()));
             user.setNome(txtNome.getText());
             user.setSenha(txtSenha.getText());
             user.setAdmin(rbtnAdmin.isSelected());
@@ -134,18 +142,18 @@ public class Controller {
         }
     }
 
-    private boolean ValidaCampos() {
+    private String ValidaCampos() {
         if (txtNome.getLength() < 4)
-            return false;
-        if (txtSenha.getLength() < 8)
-            return false;
-        if (txtConfSenha.getLength() < 8)
-            return false;
+            return "O nome deve ter no mínimo 4 caracteres!";
+        if (txtSenha.getLength() < 6)
+            return "A senha deve ter no mínimo 6 caracteres!";
+        if (txtConfSenha.getLength() < 6)
+            return "A confirmação de senha deve ter no mínimo 6 caracteres!";
         if (!rbtnAdmin.isSelected() && !rbtnComum.isSelected())
-            return false;
+            return "Selecione o tipo de acesso!";
         if (txtSenha.getText() != txtConfSenha.getText())
-            return false;
-        return true;
+            return "A senha e a confirmação de senha devem ser iguais!";
+        return "";
     }
 
     private void LimpaCampos() {

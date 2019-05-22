@@ -4,6 +4,7 @@ public class ProdutoVO extends PadraoVO {
     private String descricao;
     private int fornecedor;
     private double preco;
+    private int qtdeEstoque;
 
     public String getDescricao() {
         return descricao;
@@ -27,5 +28,13 @@ public class ProdutoVO extends PadraoVO {
 
     public void setPreco(double preco) {
         this.preco = preco;
+    }
+
+    public int getQtdeEstoque() {
+        return qtdeEstoque;
+    }
+
+    public void setQtdeEstoque(int qtdeEstoque) {
+        this.qtdeEstoque = qtdeEstoque;
     }
 }
