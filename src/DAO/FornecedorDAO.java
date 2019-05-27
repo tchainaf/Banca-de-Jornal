@@ -20,7 +20,7 @@ public class FornecedorDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             FornecedorVO forn = (FornecedorVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_INSERE_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?, ?)}");
 
             stm.setString("RAZAO_SOCIAL", forn.getNome());
             stm.setString("CNPJ", forn.getCNPJ());
@@ -39,7 +39,7 @@ public class FornecedorDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             FornecedorVO forn = (FornecedorVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_ATUALIZA_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?, ?)}");
 
             stm.setInt("IDFORNECEDOR", forn.getCodigo());
             stm.setString("RAZAO_SOCIAL", forn.getNome());
@@ -58,7 +58,7 @@ public class FornecedorDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_EXCLUI_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
             stm.setInt("IDFORNECEDOR", id);
             return stm.execute();
 
@@ -71,9 +71,10 @@ public class FornecedorDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_CONSULTA_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
             stm.setInt("IDFORNECEDOR", id);
             ResultSet result = stm.executeQuery();
+            result.next();
 
             FornecedorVO forn = new FornecedorVO();
             forn.setCodigo(result.getInt("IDFORNECEDOR"));

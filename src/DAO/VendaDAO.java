@@ -21,7 +21,7 @@ public class VendaDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             VendaVO venda = (VendaVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_INSERE_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?)}");
 
             stm.setDouble("PRECO_VENDA", venda.getPreco());
             stm.setDate("DATA_VENDA", (Date) venda.getData());
@@ -40,7 +40,7 @@ public class VendaDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             VendaVO venda = (VendaVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_ATUALIZA_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?)}");
 
             stm.setInt("IDVENDA", venda.getCodigo());
             stm.setDouble("PRECO_VENDA", venda.getPreco());
@@ -59,7 +59,7 @@ public class VendaDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_EXCLUI_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
             stm.setInt("IDVENDA", id);
             stm.execute();
             return true;
@@ -73,9 +73,10 @@ public class VendaDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_CONSULTA_" + tabela);
-            stm.setInt("Id", id);
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
+            stm.setInt("IDVENDA", id);
             ResultSet result = stm.executeQuery();
+            result.next();
 
             VendaVO venda = new VendaVO();
             venda.setCodigo(result.getInt("IDVENDA"));

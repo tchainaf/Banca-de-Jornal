@@ -24,7 +24,7 @@ public class CompraDevolucaoDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             CompraDevolucaoVO compra = (CompraDevolucaoVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_INSERE_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?)}");
 
             stm.setInt("IDFORNECEDOR", compra.getIdFornecedor());
             stm.setDouble("PRECO_VENDA", compra.getPreco());
@@ -42,7 +42,7 @@ public class CompraDevolucaoDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             CompraDevolucaoVO compra = (CompraDevolucaoVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_ATUALIZA_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?)}");
 
             stm.setInt("ID", compra.getCodigo());
             stm.setInt("IDFORNECEDOR", compra.getIdFornecedor());
@@ -60,7 +60,7 @@ public class CompraDevolucaoDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_EXCLUI_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
             stm.setInt("ID", id);
             return stm.execute();
 
@@ -73,18 +73,23 @@ public class CompraDevolucaoDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_CONSULTA_" + tabela);
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
             stm.setInt("ID", id);
             ResultSet result = stm.executeQuery();
-
-            //TODO: verificar se é compra ou dev e mudar nome dos parametros
+            result.next();
 
             CompraDevolucaoVO compra = new CompraDevolucaoVO();
-            compra.setCodigo(result.getInt("ID"));
             compra.setIdFornecedor(result.getInt("IDFORNECEDOR"));
-            compra.setPreco(result.getDouble("PRECO_VENDA"));
-            compra.setData(result.getDate("DATA_VENDA"));
 
+            if(tabela.equalsIgnoreCase("COMPRA")){
+                compra.setCodigo(result.getInt("IDCOMPRA"));
+                compra.setPreco(result.getDouble("PRECO_VENDA"));
+                compra.setData(result.getDate("DATA_VENDA"));
+            } else {
+                compra.setCodigo(result.getInt("IDDEVOLUCAO"));
+                compra.setPreco(result.getDouble("PRECO_DEVOLUCAO"));
+                compra.setData(result.getDate("DATA_DEVOLUCAO"));
+            }
             return compra;
 
         } catch (Exception e) {
