@@ -20,7 +20,7 @@
         <top>
             <HBox prefHeight="120.0" prefWidth="200.0" BorderPane.alignment="CENTER">
                 <children>
-                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
+                    <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                         <children>
                             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="63.0" text="Usuário" />
                             <Label alignment="CENTER_RIGHT" prefHeight="17.0" prefWidth="63.0" text="Senha" />
@@ -29,24 +29,22 @@
                             <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
                         </padding>
                     </VBox>
-                    <VBox alignment="CENTER" prefHeight="111.0" prefWidth="127.0" spacing="15.0">
+                    <VBox alignment="CENTER" prefHeight="111.0" prefWidth="127.0" spacing="20.0">
                         <children>
                             <TextField fx:id="txtUser" />
-                            <TextField fx:id="txtSenha" />
+                            <PasswordField fx:id="txtSenha" />
                         </children>
                     </VBox>
                 </children>
+                  <BorderPane.margin>
+                     <Insets top="20.0" />
+                  </BorderPane.margin>
             </HBox>
         </top>
         <bottom>
             <VBox alignment="CENTER" prefHeight="113.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
                 <children>
-                    <Button fx:id="btnLogin" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="25.0" prefWidth="100.0" text="Entrar" onAction="#checkLogin"/>
-                    <Label text=" ">
-                        <font>
-                            <Font size="24.0" />
-                        </font>
-                    </Label>
+                    <Button fx:id="btnLogin" defaultButton="true" mnemonicParsing="false" onAction="#checkLogin" prefHeight="25.0" prefWidth="100.0" text="Entrar" />
                 </children>
             </VBox>
         </bottom>
@@ -55,15 +53,13 @@
 <top>
     <VBox alignment="CENTER" prefHeight="84.0" prefWidth="600.0" BorderPane.alignment="CENTER">
         <children>
-            <Label text=" ">
-                <font>
-                    <Font size="18.0" />
-                </font>
-            </Label>
             <Label alignment="CENTER" contentDisplay="CENTER" text="Login">
                 <font>
                     <Font size="48.0" />
                 </font>
+                  <VBox.margin>
+                     <Insets top="30.0" />
+                  </VBox.margin>
             </Label>
         </children>
     </VBox>

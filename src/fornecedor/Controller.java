@@ -36,7 +36,7 @@ public class Controller {
         if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
-        if (dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
+        if (dao.Deletar(Integer.valueOf(txtCodigo.getText()))) {
             LimpaCampos();
             HabilitaCampos(false);
             Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram deletados com sucesso!", false);
@@ -47,7 +47,7 @@ public class Controller {
 
     public void irParaFornecedor(ActionEvent actionEvent) {
         HabilitaCampos(false);
-        FornecedorVO forn = (FornecedorVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
+        FornecedorVO forn = (FornecedorVO) dao.Ler(Integer.valueOf(txtPesquisa.getText()));
 
         if(forn == null){
             Show.MessageBox(Alert.AlertType.WARNING, "Esse fornecedor não foi encontrado!", false);
@@ -66,8 +66,17 @@ public class Controller {
             if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
-            //chamar DAO para buscar dados do id e preencher novamente a tela
+            if(txtCodigo.getText() == null)
+                LimpaCampos();
+            else{
+                FornecedorVO forn = (FornecedorVO) dao.Ler(Integer.valueOf(txtCodigo.getText()));
 
+                txtCodigo.setText(String.valueOf(forn.getCodigo()));
+                txtNome.setText(forn.getNome());
+                txtCNPJ.setText(forn.getCNPJ());
+                txtEndereco.setText(forn.getEndereco());
+                txtTelefone.setText(forn.getTelefone());
+            }
             HabilitaCampos(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +92,7 @@ public class Controller {
             }
 
             FornecedorVO forn = new FornecedorVO();
-            forn.setCodigo(Integer.getInteger(txtCodigo.getText().isEmpty()? "0" : txtCodigo.getText().trim()));
+            forn.setCodigo(txtCodigo.getText() == null ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             forn.setNome(txtNome.getText());
             forn.setCNPJ(txtCNPJ.getText());
             forn.setEndereco(txtEndereco.getText());
@@ -151,6 +160,7 @@ public class Controller {
     }
 
     private void LimpaCampos() {
+        txtCodigo.setText(null);
         txtNome.setText(null);
         txtCNPJ.setText(null);
         txtEndereco.setText(null);

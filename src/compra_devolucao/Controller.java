@@ -25,7 +25,7 @@ public class Controller {
     public void listarItens(ActionEvent actionEvent) {
         try {
 
-            //chamar DAO para listar os itens, passando flag devolucao (em estoque) ou compra (todos do fornecedor)
+            //chamar DAO para listar os itens, passando true: devolucao (em estoque) ou false: compra (todos do fornecedor)
 
             tbItens.setItems(null);
             txtValorTotal.setText(null);

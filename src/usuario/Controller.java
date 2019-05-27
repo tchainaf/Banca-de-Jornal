@@ -14,7 +14,10 @@ public class Controller {
     Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
 
     @FXML
-    TextField txtCodigo, txtNome, txtSenha, txtConfSenha, txtPesquisa;
+    TextField txtCodigo, txtNome, txtPesquisa;
+
+    @FXML
+    PasswordField txtSenha, txtConfSenha;
 
     @FXML
     RadioButton rbtnAdmin, rbtnComum;
@@ -37,7 +40,7 @@ public class Controller {
         if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
-        if (dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
+        if (dao.Deletar(Integer.valueOf(txtCodigo.getText()))) {
             LimpaCampos();
             HabilitaCampos(false);
             Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do usuário foram deletados com sucesso!", false);
@@ -48,7 +51,7 @@ public class Controller {
 
     public void irParaUsuario(ActionEvent actionEvent) {
         HabilitaCampos(false);
-        UsuarioVO user = (UsuarioVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
+        UsuarioVO user = (UsuarioVO) dao.Ler(Integer.valueOf(txtPesquisa.getText()));
 
         if(user == null){
             Show.MessageBox(Alert.AlertType.WARNING, "Esse usuário não foi encontrado!", false);
@@ -69,8 +72,19 @@ public class Controller {
             if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
-            //chamar DAO para buscar dados do id e preencher novamente a tela
+            if(txtCodigo.getText() == null)
+                LimpaCampos();
+            else{
+                UsuarioVO user = (UsuarioVO) dao.Ler(Integer.valueOf(txtPesquisa.getText()));
 
+                txtCodigo.setText(String.valueOf(user.getCodigo()));
+                txtNome.setText(user.getNome());
+                txtSenha.setText(user.getSenha());
+                if (user.isAdmin())
+                    rbtnAdmin.setSelected(true);
+                else
+                    rbtnComum.setSelected(true);
+            }
             HabilitaCampos(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,7 +100,7 @@ public class Controller {
             }
 
             UsuarioVO user = new UsuarioVO();
-            user.setCodigo(Integer.getInteger(txtCodigo.getText().isEmpty()? "0" : txtCodigo.getText().trim()));
+            user.setCodigo(txtCodigo.getText() == null ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             user.setNome(txtNome.getText());
             user.setSenha(txtSenha.getText());
             user.setAdmin(rbtnAdmin.isSelected());
@@ -151,16 +165,24 @@ public class Controller {
             return "A confirmação de senha deve ter no mínimo 6 caracteres!";
         if (!rbtnAdmin.isSelected() && !rbtnComum.isSelected())
             return "Selecione o tipo de acesso!";
-        if (txtSenha.getText() != txtConfSenha.getText())
+        if (!txtSenha.getText().equals(txtConfSenha.getText()))
             return "A senha e a confirmação de senha devem ser iguais!";
-        return "";
+        return null;
     }
 
     private void LimpaCampos() {
+        txtCodigo.setText(null);
         txtNome.setText(null);
         txtSenha.setText(null);
         txtConfSenha.setText(null);
         rbtnAdmin.setSelected(false);
         rbtnComum.setSelected(false);
+    }
+
+    public void changeRbtn(ActionEvent actionEvent) {
+        if(rbtnAdmin.isSelected())
+            rbtnComum.setSelected(false);
+        else
+            rbtnComum.setSelected(true);
     }
 }

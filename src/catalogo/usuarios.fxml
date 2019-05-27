@@ -17,7 +17,6 @@
                 <columns>
                     <TableColumn fx:id="colCodigo" prefWidth="60.0" text="Código" />
                     <TableColumn fx:id="colNome" prefWidth="320.0" text="Usuário" />
-                    <TableColumn fx:id="colSenha" minWidth="0.0" prefWidth="230.0" text="Senha" />
                     <TableColumn fx:id="colAcesso" minWidth="0.0" prefWidth="187.0" text="Tipo de Acesso" />
                 </columns>
             </TableView>

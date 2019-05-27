@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="sqljdbc42">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/Downloads/sqljdbc_4.2/ptb/jre8/sqljdbc42.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <NATIVE>
+      <root url="file://$USER_HOME$/Downloads/sqljdbc_4.2/ptb/auth/x64" />
+    </NATIVE>
+    <SOURCES />
+  </library>
+</component>

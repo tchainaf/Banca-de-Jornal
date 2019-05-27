@@ -1,15 +1,18 @@
 package DAO;
 
 import VO.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import util.Database;
 
 import java.sql.CallableStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 
 public class FornecedorDAO extends PadraoDAO {
 
     public FornecedorDAO() {
-        tabela = "tbFORNECEDOR";
+        tabela = "FORNECEDOR";
         conn = Database.getConnection();
     }
 
@@ -17,12 +20,12 @@ public class FornecedorDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             FornecedorVO forn = (FornecedorVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_INSERT_" + tabela);
+            CallableStatement stm = conn.prepareCall("SP_INSERE_" + tabela);
 
-            stm.setString("Nome", forn.getNome());
-            stm.setString("Cnpj", forn.getCNPJ());
-            stm.setString("Endereco", forn.getEndereco());
-            stm.setString("Telefone", forn.getTelefone());
+            stm.setString("RAZAO_SOCIAL", forn.getNome());
+            stm.setString("CNPJ", forn.getCNPJ());
+            stm.setString("ENDERECO", forn.getEndereco());
+            stm.setString("TELEFONE", forn.getTelefone());
 
             return stm.execute();
 
@@ -36,13 +39,13 @@ public class FornecedorDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             FornecedorVO forn = (FornecedorVO) obj;
-            CallableStatement stm = conn.prepareCall("SP_ALTER_" + tabela);
+            CallableStatement stm = conn.prepareCall("SP_ATUALIZA_" + tabela);
 
-            stm.setInt("Id", forn.getCodigo());
-            stm.setString("Nome", forn.getNome());
-            stm.setString("Cnpj", forn.getCNPJ());
-            stm.setString("Endereco", forn.getEndereco());
-            stm.setString("Telefone", forn.getTelefone());
+            stm.setInt("IDFORNECEDOR", forn.getCodigo());
+            stm.setString("RAZAO_SOCIAL", forn.getNome());
+            stm.setString("CNPJ", forn.getCNPJ());
+            stm.setString("ENDERECO", forn.getEndereco());
+            stm.setString("TELEFONE", forn.getTelefone());
 
             return stm.execute();
 
@@ -55,8 +58,8 @@ public class FornecedorDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_DELETE_" + tabela);
-            stm.setInt("Id", id);
+            CallableStatement stm = conn.prepareCall("SP_EXCLUI_" + tabela);
+            stm.setInt("IDFORNECEDOR", id);
             return stm.execute();
 
         } catch (Exception e) {
@@ -68,20 +71,44 @@ public class FornecedorDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("SP_READ_" + tabela);
-            stm.setInt("Id", id);
+            CallableStatement stm = conn.prepareCall("SP_CONSULTA_" + tabela);
+            stm.setInt("IDFORNECEDOR", id);
             ResultSet result = stm.executeQuery();
 
             FornecedorVO forn = new FornecedorVO();
-            forn.setCodigo(result.getInt("Id"));
-            forn.setNome(result.getString("Nome"));
-            forn.setCNPJ(result.getString("Cnpj"));
-            forn.setEndereco(result.getString("Endereco"));
-            forn.setTelefone(result.getString("Telefone"));
+            forn.setCodigo(result.getInt("IDFORNECEDOR"));
+            forn.setNome(result.getString("RAZAO_SOCIAL"));
+            forn.setCNPJ(result.getString("CNPJ"));
+            forn.setEndereco(result.getString("ENDERECO"));
+            forn.setTelefone(result.getString("TELEFONE"));
 
             return forn;
 
         } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
+    public ObservableList<PadraoVO> Listar(boolean flag) {
+        ObservableList<PadraoVO> list = FXCollections.observableArrayList();
+        try {
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + "}");
+            ResultSet result = stm.executeQuery();
+
+            while (result.next()) {
+                FornecedorVO forn = new FornecedorVO();
+                forn.setCodigo(result.getInt("IDFORNECEDOR"));
+                forn.setNome(result.getString("RAZAO_SOCIAL"));
+                forn.setCNPJ(result.getString("CNPJ"));
+                forn.setEndereco(result.getString("ENDERECO"));
+                forn.setTelefone(result.getString("TELEFONE"));
+                list.add(forn);
+            }
+            return list;
+
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;

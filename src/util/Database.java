@@ -7,10 +7,8 @@ import java.sql.SQLException;
 public class Database {
     public static Connection getConnection(){
         try{
-            String url = "";
-            String user = "";
-            String pass = "";
-            Connection conn = DriverManager.getConnection(url, user, pass);
+            String url = "jdbc:sqlserver://localhost;databaseName=BANCA_DE_JORNAL;integratedSecurity=true;";
+            Connection conn = DriverManager.getConnection(url);
             conn.setAutoCommit(true);
             return conn;
 

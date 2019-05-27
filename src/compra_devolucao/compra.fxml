@@ -33,7 +33,7 @@
             <TableView BorderPane.alignment="CENTER" fx:id="tbItens">
                 <columns>
                     <TableColumn prefWidth="464.0" text="Item" />
-                    <TableColumn minWidth="0.0" prefWidth="94.0" text="Quantidade" />
+                    <TableColumn minWidth="0.0" prefWidth="94.0" text="Quantidade" editable="true" />
                     <TableColumn minWidth="0.0" prefWidth="119.0" text="Preço Unitário" />
                     <TableColumn minWidth="0.0" prefWidth="120.0" text="Preço Total" />
                 </columns>

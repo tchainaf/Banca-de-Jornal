@@ -1,32 +1,15 @@
 package DAO;
 
 import VO.PadraoVO;
-
-import java.sql.*;
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+
+import java.sql.Connection;
 
 public abstract class PadraoDAO {
     protected static Connection conn;
     protected static String tabela;
 
-    public static ObservableList<PadraoVO> Listar() {
-        ObservableList<PadraoVO> list = FXCollections.observableArrayList();
-        try {
-            CallableStatement stm = conn.prepareCall("SP_LIST_" + tabela);
-            ResultSet result = stm.executeQuery();
-            while (result.next()) {
-                PadraoVO obj = new PadraoVO();
-                obj.setCodigo(result.getInt("ID"));
-                list.add(obj);
-            }
-            return list;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
-        }
-    }
+    abstract public ObservableList<PadraoVO> Listar(boolean flag);
 
     abstract public boolean Inserir(PadraoVO obj);
 

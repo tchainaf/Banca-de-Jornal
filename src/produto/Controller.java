@@ -37,7 +37,7 @@ public class Controller {
         if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza que quer deletar esse registro?", true))
             return;
 
-        if (dao.Deletar(Integer.getInteger(txtCodigo.getText()))) {
+        if (dao.Deletar(Integer.valueOf(txtCodigo.getText()))) {
             LimpaCampos();
             HabilitaCampos(false);
             Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do produto foram deletados com sucesso!", false);
@@ -48,7 +48,7 @@ public class Controller {
 
     public void irParaProduto(ActionEvent actionEvent) {
         HabilitaCampos(false);
-        ProdutoVO prod = (ProdutoVO) dao.Ler(Integer.getInteger(txtPesquisa.getText()));
+        ProdutoVO prod = (ProdutoVO) dao.Ler(Integer.valueOf(txtPesquisa.getText()));
 
         if(prod == null){
             Show.MessageBox(Alert.AlertType.WARNING, "Esse produto não foi encontrado!", false);
@@ -66,8 +66,16 @@ public class Controller {
             if (!Show.MessageBox(Alert.AlertType.WARNING, "Tem certeza? Você vai perder as alterações não salvas!", true))
                 return;
 
-            //chamar DAO para buscar dados do id e preencher novamente a tela
+            if(txtCodigo.getText() == null)
+                LimpaCampos();
+            else{
+                ProdutoVO prod = (ProdutoVO) dao.Ler(Integer.valueOf(txtPesquisa.getText()));
 
+                txtCodigo.setText(String.valueOf(prod.getCodigo()));
+                txtDescricao.setText(prod.getDescricao());
+                cbxFornecedor.setValue(prod.getFornecedor());
+                txtPreco.setText(String.valueOf(prod.getPreco()));
+            }
             HabilitaCampos(false);
         } catch (Exception e) {
             e.printStackTrace();
@@ -83,7 +91,7 @@ public class Controller {
             }
 
             ProdutoVO prod = new ProdutoVO();
-            prod.setCodigo(Integer.getInteger(txtCodigo.getText().isEmpty()? "0" : txtCodigo.getText().trim()));
+            prod.setCodigo(txtCodigo.getText() == null ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             prod.setDescricao(txtDescricao.getText());
             prod.setFornecedor(0); //cbxFornecedor.getValue()
             prod.setPreco(Double.valueOf(txtPreco.getText()));

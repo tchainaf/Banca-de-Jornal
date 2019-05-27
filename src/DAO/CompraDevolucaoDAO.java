@@ -6,29 +6,31 @@ import javafx.collections.ObservableList;
 import util.Database;
 
 import java.sql.CallableStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProdutoDAO extends PadraoDAO {
+public class CompraDevolucaoDAO extends PadraoDAO {
 
-    public ProdutoDAO() {
-        tabela = "CATALOGO";
+    public CompraDevolucaoDAO(boolean devolucao) {
+        if(devolucao)
+            tabela = "DEVOLUCAO";
+        else
+            tabela = "COMPRA";
         conn = Database.getConnection();
     }
 
     @Override
     public boolean Inserir(PadraoVO obj) {
         try {
-            ProdutoVO prod = (ProdutoVO) obj;
+            CompraDevolucaoVO compra = (CompraDevolucaoVO) obj;
             CallableStatement stm = conn.prepareCall("SP_INSERE_" + tabela);
 
-            stm.setString("desc_prod", prod.getDescricao());
-            stm.setDouble("val_prod", prod.getPreco());
-            stm.setInt("idforn", prod.getFornecedor());
-            stm.setInt("qtd_est", 0);
+            stm.setInt("IDFORNECEDOR", compra.getIdFornecedor());
+            stm.setDouble("PRECO_VENDA", compra.getPreco());
+            stm.setDate("DATA_VENDA", (Date) compra.getData());
 
-            stm.execute();
-            return true;
+            return stm.execute();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -39,17 +41,15 @@ public class ProdutoDAO extends PadraoDAO {
     @Override
     public boolean Alterar(PadraoVO obj) {
         try {
-            ProdutoVO prod = (ProdutoVO) obj;
+            CompraDevolucaoVO compra = (CompraDevolucaoVO) obj;
             CallableStatement stm = conn.prepareCall("SP_ATUALIZA_" + tabela);
 
-            stm.setInt("idprod", prod.getCodigo());
-            stm.setString("desc_prod", prod.getDescricao());
-            stm.setDouble("val_prod", prod.getPreco());
-            stm.setInt("idforn", prod.getFornecedor());
-            stm.setInt("qtd_est", prod.getQtdeEstoque());
+            stm.setInt("ID", compra.getCodigo());
+            stm.setInt("IDFORNECEDOR", compra.getIdFornecedor());
+            stm.setDouble("PRECO_VENDA", compra.getPreco());
+            stm.setDate("DATA_VENDA", (Date) compra.getData());
 
-            stm.execute();
-            return true;
+            return stm.execute();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -61,9 +61,8 @@ public class ProdutoDAO extends PadraoDAO {
     public boolean Deletar(int id) {
         try {
             CallableStatement stm = conn.prepareCall("SP_EXCLUI_" + tabela);
-            stm.setInt("idprod", id);
-            stm.execute();
-            return true;
+            stm.setInt("ID", id);
+            return stm.execute();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -75,17 +74,18 @@ public class ProdutoDAO extends PadraoDAO {
     public PadraoVO Ler(int id) {
         try {
             CallableStatement stm = conn.prepareCall("SP_CONSULTA_" + tabela);
-            stm.setInt("idprod", id);
+            stm.setInt("ID", id);
             ResultSet result = stm.executeQuery();
 
-            ProdutoVO prod = new ProdutoVO();
-            prod.setCodigo(result.getInt("IDPRODUTO"));
-            prod.setDescricao(result.getString("DESC_PRODUTO"));
-            prod.setPreco(result.getDouble("VALOR_PRODUTO"));
-            prod.setFornecedor(result.getInt("IDFORNECEDOR"));
-            prod.setQtdeEstoque(result.getInt("QUANTIDADE_ESTOQUE"));
+            //TODO: verificar se é compra ou dev e mudar nome dos parametros
 
-            return prod;
+            CompraDevolucaoVO compra = new CompraDevolucaoVO();
+            compra.setCodigo(result.getInt("ID"));
+            compra.setIdFornecedor(result.getInt("IDFORNECEDOR"));
+            compra.setPreco(result.getDouble("PRECO_VENDA"));
+            compra.setData(result.getDate("DATA_VENDA"));
+
+            return compra;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,8 +97,9 @@ public class ProdutoDAO extends PadraoDAO {
     public ObservableList<PadraoVO> Listar(boolean flag) {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + " (?)}");
-            stm.setString("SN_ESTOQUE", flag ? "S" : "N");
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_COMPRA (?, ?)}");
+            stm.setInt("IDFORNECEDOR", 0); //TODO: passar IDFORNECEDOR
+            stm.setString("SN_DEVOLUCAO", flag ? "S" : "N");
             ResultSet result = stm.executeQuery();
 
             while (result.next()) {

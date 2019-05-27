@@ -6,26 +6,26 @@ import javafx.collections.ObservableList;
 import util.Database;
 
 import java.sql.CallableStatement;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class ProdutoDAO extends PadraoDAO {
+public class VendaDAO extends PadraoDAO {
 
-    public ProdutoDAO() {
-        tabela = "CATALOGO";
+    public VendaDAO() {
+        tabela = "VENDA";
         conn = Database.getConnection();
     }
 
     @Override
     public boolean Inserir(PadraoVO obj) {
         try {
-            ProdutoVO prod = (ProdutoVO) obj;
+            VendaVO venda = (VendaVO) obj;
             CallableStatement stm = conn.prepareCall("SP_INSERE_" + tabela);
 
-            stm.setString("desc_prod", prod.getDescricao());
-            stm.setDouble("val_prod", prod.getPreco());
-            stm.setInt("idforn", prod.getFornecedor());
-            stm.setInt("qtd_est", 0);
+            stm.setDouble("PRECO_VENDA", venda.getPreco());
+            stm.setDate("DATA_VENDA", (Date) venda.getData());
+            stm.setString("TP_PAGAMENTO", venda.getTipo());
 
             stm.execute();
             return true;
@@ -39,14 +39,13 @@ public class ProdutoDAO extends PadraoDAO {
     @Override
     public boolean Alterar(PadraoVO obj) {
         try {
-            ProdutoVO prod = (ProdutoVO) obj;
+            VendaVO venda = (VendaVO) obj;
             CallableStatement stm = conn.prepareCall("SP_ATUALIZA_" + tabela);
 
-            stm.setInt("idprod", prod.getCodigo());
-            stm.setString("desc_prod", prod.getDescricao());
-            stm.setDouble("val_prod", prod.getPreco());
-            stm.setInt("idforn", prod.getFornecedor());
-            stm.setInt("qtd_est", prod.getQtdeEstoque());
+            stm.setInt("IDVENDA", venda.getCodigo());
+            stm.setDouble("PRECO_VENDA", venda.getPreco());
+            stm.setDate("DATA_VENDA", (Date) venda.getData());
+            stm.setString("TP_PAGAMENTO", venda.getTipo());
 
             stm.execute();
             return true;
@@ -61,7 +60,7 @@ public class ProdutoDAO extends PadraoDAO {
     public boolean Deletar(int id) {
         try {
             CallableStatement stm = conn.prepareCall("SP_EXCLUI_" + tabela);
-            stm.setInt("idprod", id);
+            stm.setInt("IDVENDA", id);
             stm.execute();
             return true;
 
@@ -75,17 +74,16 @@ public class ProdutoDAO extends PadraoDAO {
     public PadraoVO Ler(int id) {
         try {
             CallableStatement stm = conn.prepareCall("SP_CONSULTA_" + tabela);
-            stm.setInt("idprod", id);
+            stm.setInt("Id", id);
             ResultSet result = stm.executeQuery();
 
-            ProdutoVO prod = new ProdutoVO();
-            prod.setCodigo(result.getInt("IDPRODUTO"));
-            prod.setDescricao(result.getString("DESC_PRODUTO"));
-            prod.setPreco(result.getDouble("VALOR_PRODUTO"));
-            prod.setFornecedor(result.getInt("IDFORNECEDOR"));
-            prod.setQtdeEstoque(result.getInt("QUANTIDADE_ESTOQUE"));
+            VendaVO venda = new VendaVO();
+            venda.setCodigo(result.getInt("IDVENDA"));
+            venda.setPreco(result.getDouble("PRECO_VENDA"));
+            venda.setData(result.getDate("DATA_VENDA"));
+            venda.setTipo(result.getString("TP_PAGAMENTO"));
 
-            return prod;
+            return venda;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -97,18 +95,16 @@ public class ProdutoDAO extends PadraoDAO {
     public ObservableList<PadraoVO> Listar(boolean flag) {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + " (?)}");
-            stm.setString("SN_ESTOQUE", flag ? "S" : "N");
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + "}");
             ResultSet result = stm.executeQuery();
 
             while (result.next()) {
-                ProdutoVO prod = new ProdutoVO();
-                prod.setCodigo(result.getInt("IDPRODUTO"));
-                prod.setDescricao(result.getString("DESC_PRODUTO"));
-                prod.setPreco(result.getDouble("VALOR_PRODUTO"));
-                prod.setFornecedor(result.getInt("IDFORNECEDOR"));
-                prod.setQtdeEstoque(result.getInt("QUANTIDADE_ESTOQUE"));
-                list.add(prod);
+                VendaVO venda = new VendaVO();
+                venda.setCodigo(result.getInt("IDVENDA"));
+                venda.setPreco(result.getDouble("PRECO_VENDA"));
+                venda.setData(result.getDate("DATA_VENDA"));
+                venda.setTipo(result.getString("TP_PAGAMENTO"));
+                list.add(venda);
             }
             return list;
 

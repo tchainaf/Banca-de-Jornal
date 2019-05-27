@@ -15,12 +15,17 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class Controller {
-
     @FXML
     BorderPane tela;
 
     @FXML
     TableView tbProdutos, tbFornecedores, tbUsuarios;
+
+    @FXML
+    public void initialize(){
+        if(!login.Controller.isAdmin())
+            btnUser.setDisable(true);
+    }
 
     public void abrirVenda(ActionEvent actionEvent) {
         try {
@@ -39,7 +44,7 @@ public class Controller {
             tela.setCenter(loader);
 
             ProdutoDAO prodDAO = new ProdutoDAO();
-            ObservableList<PadraoVO> list = prodDAO.Listar(); //.forEach(item -> (ProdutoVO)item)
+            ObservableList<PadraoVO> list = prodDAO.Listar(true); //.forEach(item -> (ProdutoVO)item)
             if(list != null)
                 tbProdutos.setItems(list);
 
@@ -76,7 +81,7 @@ public class Controller {
             tela.setCenter(loader);
 
             FornecedorDAO fornDAO = new FornecedorDAO();
-            ObservableList<PadraoVO> list = fornDAO.Listar(); //.forEach(item -> (FornecedorVO)item)
+            ObservableList<PadraoVO> list = fornDAO.Listar(true); //.forEach(item -> (FornecedorVO)item)
             if(list != null)
                 tbFornecedores.setItems(list);
 
@@ -92,7 +97,10 @@ public class Controller {
             tela.setCenter(loader);
 
             UsuarioDAO userDAO = new UsuarioDAO();
-            ObservableList<PadraoVO> list = userDAO.Listar(); //.forEach(item -> (UsuarioVO)item)
+            ObservableList<PadraoVO> list = userDAO.Listar(true); //.forEach(item -> (UsuarioVO)item)
+
+            //TODO: preencher tabela com dados da lista
+
             if(list != null)
                 tbUsuarios.setItems(list);
 
