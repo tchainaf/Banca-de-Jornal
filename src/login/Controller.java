@@ -12,6 +12,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import util.Show;
 
+import java.io.IOException;
+
 
 public class Controller {
     @FXML
@@ -28,17 +30,17 @@ public class Controller {
 
     public void checkLogin(ActionEvent actionEvent) {
         try {
-            if(txtUser.getText().isEmpty() || txtSenha.getText().isEmpty()) {
+            if (txtUser.getText().isEmpty() || txtSenha.getText().isEmpty()) {
                 Show.MessageBox(Alert.AlertType.WARNING, "Informe o usuário e a senha", false);
                 return;
             }
 
             String acesso = UsuarioDAO.Login(txtUser.getText(), txtSenha.getText());
-            if(acesso == null) {
+            if (acesso == null) {
                 Show.MessageBox(Alert.AlertType.ERROR, "Usuário e senha não correspondentes!", false);
                 return;
             }
-            if(acesso.equalsIgnoreCase("A"))
+            if (acesso.equalsIgnoreCase("A"))
                 admin = true;
 
             Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
@@ -48,7 +50,23 @@ public class Controller {
             novaTela.setTitle("Banca de Jornal");
             novaTela.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("..//principal//principal.fxml"))));
             novaTela.show();
-        } catch(Exception e) {
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void go(ActionEvent actionEvent) {
+        admin = true;
+
+        try {
+            Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
+            tela.close();
+
+            Stage novaTela = new Stage();
+            novaTela.setTitle("Banca de Jornal");
+            novaTela.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("..//principal//principal.fxml"))));
+            novaTela.show();
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }

@@ -64,6 +64,13 @@
         </children>
     </VBox>
 </top>
+    <bottom>
+        <VBox alignment="CENTER" prefHeight="113.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#go" prefHeight="25.0" prefWidth="100.0" text="Testar" />
+            </children>
+        </VBox>
+    </bottom>
 </BorderPane>
    <columnConstraints>
       <ColumnConstraints />
