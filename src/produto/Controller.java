@@ -2,6 +2,7 @@ package produto;
 
 import DAO.FornecedorDAO;
 import DAO.ProdutoDAO;
+import VO.PadraoVO;
 import VO.ProdutoVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,18 +18,16 @@ import java.util.ResourceBundle;
 
 public class Controller implements Initializable {
     ProdutoDAO dao = new ProdutoDAO();
+    FornecedorDAO fornDAO = new FornecedorDAO();
 
     @FXML Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
     @FXML TextField txtCodigo, txtDescricao, txtPreco, txtPesquisa;
-    @FXML ComboBox cbxFornecedor;
+    @FXML ComboBox<PadraoVO> cbxFornecedor;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         HabilitaCampos(false);
-
-        FornecedorDAO forn = new FornecedorDAO();
-        cbxFornecedor.setItems(forn.Listar(true));
-        //cbxFornecedor.setCellFactory(new Pro);
+        cbxFornecedor.setItems(fornDAO.Listar(true));
     }
 
     public void novoProduto(ActionEvent actionEvent) {
@@ -64,7 +63,7 @@ public class Controller implements Initializable {
 
         txtCodigo.setText(String.valueOf(prod.getCodigo()));
         txtDescricao.setText(prod.getDescricao());
-        cbxFornecedor.setValue(prod.getFornecedor());
+        cbxFornecedor.setValue(fornDAO.Ler(prod.getFornecedor()));
         txtPreco.setText(String.valueOf(prod.getPreco()));
 
         btnAlterar.setDisable(false);
@@ -83,7 +82,7 @@ public class Controller implements Initializable {
 
                 txtCodigo.setText(String.valueOf(prod.getCodigo()));
                 txtDescricao.setText(prod.getDescricao());
-                cbxFornecedor.setValue(prod.getFornecedor());
+                cbxFornecedor.setValue(fornDAO.Ler(prod.getFornecedor()));
                 txtPreco.setText(String.valueOf(prod.getPreco()));
             }
             HabilitaCampos(false);
@@ -103,7 +102,7 @@ public class Controller implements Initializable {
             ProdutoVO prod = new ProdutoVO();
             prod.setCodigo((txtCodigo.getText() == null || txtCodigo.getText().isEmpty()) ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             prod.setDescricao(txtDescricao.getText());
-            prod.setFornecedor(0); //cbxFornecedor.getValue()
+            prod.setFornecedor(cbxFornecedor.getValue().getCodigo());
             prod.setPreco(Double.valueOf(txtPreco.getText()));
 
             boolean sucesso = false;
@@ -115,14 +114,14 @@ public class Controller implements Initializable {
 
             if (sucesso) {
                 HabilitaCampos(false);
-                Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do fornecedor foram salvos com sucesso!", false);
+                Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados do produto foram salvos com sucesso!", false);
                 LimpaCampos();
             } else {
-                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor! Tente novamente.", false);
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do produto! Tente novamente.", false);
             }
 
         } catch (Exception e) {
-            Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do fornecedor!", false);
+            Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados do produto!", false);
             e.printStackTrace();
         }
     }
@@ -153,8 +152,8 @@ public class Controller implements Initializable {
     }
 
     private String ValidaCampos() {
-        if (txtDescricao.getLength() < 10)
-            return "A descrição deve ter no mínimo 10 caracteres!";
+        if (txtDescricao.getLength() < 5)
+            return "A descrição deve ter no mínimo 5 caracteres!";
         if (cbxFornecedor.getValue() == null)
             return "Selecione um fornecedor!";
         if (txtPreco.getLength() < 3)

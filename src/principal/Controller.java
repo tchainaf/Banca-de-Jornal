@@ -18,6 +18,12 @@ public class Controller implements Initializable {
     @FXML BorderPane tela;
     @FXML Button btnVenda, btnCompra, btnDev, btnProdutos, btnForn, btnUser;
 
+    static boolean dev = false;
+
+    public static boolean isDevolucao(){
+        return dev;
+    }
+
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         if(!login.Controller.isAdmin())
@@ -50,6 +56,7 @@ public class Controller implements Initializable {
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//compra_devolucao//compra.fxml"));
             tela.setCenter(loader);
+            dev = false;
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -61,6 +68,7 @@ public class Controller implements Initializable {
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//compra_devolucao//devolucao.fxml"));
             tela.setCenter(loader);
+            dev = true;
         } catch(Exception e) {
             e.printStackTrace();
         }

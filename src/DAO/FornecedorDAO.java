@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class FornecedorDAO extends PadraoDAO {
 
     public FornecedorDAO() {
-        tabela = "FORNECEDOR";
         conn = Database.getConnection();
     }
 
@@ -20,7 +19,7 @@ public class FornecedorDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             FornecedorVO forn = (FornecedorVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_FORNECEDOR (?, ?, ?, ?)}");
 
             stm.setString("RAZAO_SOCIAL", forn.getNome());
             stm.setString("CNPJ", forn.getCnpj());
@@ -40,7 +39,7 @@ public class FornecedorDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             FornecedorVO forn = (FornecedorVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_FORNECEDOR (?, ?, ?, ?, ?)}");
 
             stm.setInt("IDFORNECEDOR", forn.getCodigo());
             stm.setString("RAZAO_SOCIAL", forn.getNome());
@@ -60,7 +59,7 @@ public class FornecedorDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_FORNECEDOR (?)}");
             stm.setInt("IDFORNECEDOR", id);
             stm.execute();
             return true;
@@ -74,7 +73,7 @@ public class FornecedorDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_FORNECEDOR (?)}");
             stm.setInt("IDFORNECEDOR", id);
             ResultSet result = stm.executeQuery();
             result.next();
@@ -98,7 +97,7 @@ public class FornecedorDAO extends PadraoDAO {
     public ObservableList<PadraoVO> Listar(boolean flag) {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + "}");
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_FORNECEDOR}");
             ResultSet result = stm.executeQuery();
 
             while (result.next()) {

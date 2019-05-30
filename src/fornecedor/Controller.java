@@ -152,7 +152,7 @@ public class Controller implements Initializable {
 
     private String ValidaCampos() {
         if (txtNome.getLength() < 5)
-            return "A razão social deve ter no mínimo 5 caracteres!";
+            return "O nome deve ter no mínimo 5 caracteres!";
         if (txtCNPJ.getLength() != 14)
             return "O CNPJ deve ter 14 caracteres!";
         if (txtEndereco.getLength() < 8)

@@ -1,38 +1,57 @@
 package venda;
 
+import DAO.VendaDAO;
+import VO.PadraoVO;
+import VO.PagamentoVO;
 import VO.ProdutoVO;
+import VO.VendaVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
+import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 import util.Show;
 
-public class Controller {
-    @FXML
-    TableView tbItens;
+import java.net.URL;
+import java.time.Instant;
+import java.util.Date;
+import java.util.ResourceBundle;
 
-    @FXML
-    ComboBox cbxPagamento, cbxItens;
+public class Controller implements Initializable {
+    @FXML ComboBox<PagamentoVO> cbxPagamento;
+    @FXML TextField txtValorTotal, txtValorPago, txtTroco;
 
-    @FXML
-    TextField txtValorTotal, txtValorPago, txtTroco, txtQtde;
+    @FXML TableView<PadraoVO> tbItens;
+    @FXML TableColumn<ProdutoVO, Integer> colQtde;
+    @FXML TableColumn<ProdutoVO, String> colDescricao;
+    @FXML TableColumn<ProdutoVO, Double> colPreco;
+    @FXML TableColumn<ProdutoVO, Double> colPrecoTotal;
 
-    @FXML
-    Label lblEstoque;
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+        colDescricao.setCellValueFactory(new PropertyValueFactory<ProdutoVO, String>("descricao"));
+        colQtde.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Integer>("qtde"));
+        colPreco.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Double>("preco"));
+        colPrecoTotal.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Double>("valorTotal"));
 
-    public double valorTotal = 0;
-    public ProdutoVO produto;
+        //TODO: preencher combobox do modo de pagamento
+//        ObservableList<PagamentoVO> list = new FXCollections.observableArrayList(new PagamentoVO("D", "Dinheiro"), new PagamentoVO("C", "Cartão"));
+//        cbxPagamento.setItems(list);
+    }
 
     public void concluirVenda(ActionEvent actionEvent) {
         try {
+            VendaVO venda = new VendaVO();
+            venda.setData(Date.from(Instant.now()));
+            venda.setPreco(Double.valueOf(txtValorTotal.getText()));
+            venda.setTipo(cbxPagamento.getValue().getDescricao());
 
-            //chamar DAO para salvar
-
-            if(true) { //erro
+            VendaDAO dao = new VendaDAO();
+            if(!dao.Inserir(venda)) {
                 Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da venda! Tente novamente.", false);
                 return;
             }
@@ -55,51 +74,24 @@ public class Controller {
             Stage stage = new Stage();
             stage.setTitle("Adicionar Itens");
             stage.setScene(new Scene(loader));
-            stage.show();
+            stage.showAndWait();
 
-            //preencher lista de itens se tiver nula
+            //TODO: adicionar ControllerAdd.produto no tbItens apos fechar telinha
+            tbItens.getItems().add(ControllerAdd.produto);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void incluirItem(ActionEvent actionEvent) {
-        try {
-            Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            tela.close();
-
-            if(txtQtde.getText().isEmpty()){
-                Show.MessageBox(Alert.AlertType.ERROR, "Informe a quantidade!", false);
-                return;
-            }
-
-            Object item = cbxItens.getValue();
-            int qtde = Integer.getInteger(txtQtde.getText().trim());
-            double precoQtde = qtde * produto.getPreco();
-
-            //adicionar item no tbItens os dados do produto
-
-            valorTotal += precoQtde;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
 
     public void changePagamento(ActionEvent actionEvent) {
-        if (cbxPagamento.getValue() == "Dinheiro") {
+        if (cbxPagamento.getValue().getSigla().equalsIgnoreCase("D")) {
             txtValorPago.setDisable(false);
             txtTroco.setDisable(false);
         } else {
             txtValorPago.setDisable(true);
             txtTroco.setDisable(true);
         }
-    }
-
-    public void changeItem(ActionEvent actionEvent) {
-        //chamar DAO para buscar informações do item e preencher variavel produto
-
-        produto = new ProdutoVO();
-
-        lblEstoque.setText("Em estoque: " + produto.getQtdeEstoque());
     }
 }

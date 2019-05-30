@@ -5,6 +5,8 @@ public class ProdutoVO extends PadraoVO {
     private int fornecedor;
     private double preco;
     private int qtdeEstoque;
+    private int qtde;
+    private double valorTotal;
 
     public String getDescricao() {
         return descricao;
@@ -36,5 +38,26 @@ public class ProdutoVO extends PadraoVO {
 
     public void setQtdeEstoque(int qtdeEstoque) {
         this.qtdeEstoque = qtdeEstoque;
+    }
+
+    public int getQtde() {
+        return qtde;
+    }
+
+    public void setQtde(int qtde) {
+        this.qtde = qtde;
+    }
+
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
+    @Override
+    public String toString(){
+        return descricao;
     }
 }

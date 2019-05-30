@@ -19,10 +19,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ControllerTable implements Initializable {
-    @FXML
-    TableView<PadraoVO> tbProdutos;
-    @FXML
-    TableColumn<ProdutoVO, Integer> colCodigo, colFornecedor, colQtde;
+    @FXML TableView<PadraoVO> tbProdutos;
+    @FXML TableColumn<ProdutoVO, Integer> colCodigo, colFornecedor, colQtde;
     @FXML TableColumn<ProdutoVO, String> colDescricao;
     @FXML TableColumn<ProdutoVO, Double> colPreco;
 
@@ -35,7 +33,7 @@ public class ControllerTable implements Initializable {
         colQtde.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Integer>("qtdeEstoque"));
 
         ProdutoDAO dao = new ProdutoDAO();
-        ObservableList<PadraoVO> list = dao.Listar(true);
+        ObservableList<PadraoVO> list = dao.Listar(false);
         if(list != null)
             tbProdutos.setItems(list);
 

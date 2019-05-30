@@ -11,6 +11,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 public class CompraDevolucaoDAO extends PadraoDAO {
+    String tabela;
+    public int idFornecedor;
 
     public CompraDevolucaoDAO(boolean devolucao) {
         if(devolucao)
@@ -103,7 +105,7 @@ public class CompraDevolucaoDAO extends PadraoDAO {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
             CallableStatement stm = conn.prepareCall("{call SP_LISTA_COMPRA (?, ?)}");
-            stm.setInt("IDFORNECEDOR", 0); //TODO: passar IDFORNECEDOR
+            stm.setInt("IDFORNECEDOR", idFornecedor);
             stm.setString("SN_DEVOLUCAO", flag ? "S" : "N");
             ResultSet result = stm.executeQuery();
 

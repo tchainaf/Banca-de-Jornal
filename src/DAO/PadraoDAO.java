@@ -7,7 +7,6 @@ import java.sql.Connection;
 
 public abstract class PadraoDAO {
     protected static Connection conn;
-    protected static String tabela;
 
     abstract public ObservableList<PadraoVO> Listar(boolean flag);
 

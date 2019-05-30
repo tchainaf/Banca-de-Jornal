@@ -14,7 +14,6 @@ import java.sql.Types;
 public class UsuarioDAO extends PadraoDAO {
 
     public UsuarioDAO() {
-        tabela = "USUARIO";
         conn = Database.getConnection();
     }
 
@@ -41,7 +40,7 @@ public class UsuarioDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             UsuarioVO user = (UsuarioVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_USUARIO (?, ?, ?)}");
 
             stm.setString("NOME_USUARIO", user.getNome());
             stm.setString("SENHA", user.getSenha());
@@ -60,7 +59,7 @@ public class UsuarioDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             UsuarioVO user = (UsuarioVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_USUARIO (?, ?, ?, ?)}");
 
             stm.setInt("IDUSUARIO", user.getCodigo());
             stm.setString("NOME_USUARIO", user.getNome());
@@ -79,7 +78,7 @@ public class UsuarioDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_USUARIO (?)}");
             stm.setInt("IDUSUARIO", id);
             stm.execute();
             return true;
@@ -93,7 +92,7 @@ public class UsuarioDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_USUARIO (?)}");
             stm.setInt("IDUSUARIO", id);
             ResultSet result = stm.executeQuery();
             result.next();
@@ -116,7 +115,7 @@ public class UsuarioDAO extends PadraoDAO {
     public ObservableList<PadraoVO> Listar(boolean flag) {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + "}");
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_USUARIO}");
             ResultSet result = stm.executeQuery();
 
             while (result.next()) {

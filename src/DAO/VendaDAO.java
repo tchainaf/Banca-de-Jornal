@@ -13,7 +13,6 @@ import java.sql.SQLException;
 public class VendaDAO extends PadraoDAO {
 
     public VendaDAO() {
-        tabela = "VENDA";
         conn = Database.getConnection();
     }
 
@@ -21,7 +20,7 @@ public class VendaDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             VendaVO venda = (VendaVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_VENDA (?, ?, ?)}");
 
             stm.setDouble("PRECO_VENDA", venda.getPreco());
             stm.setDate("DATA_VENDA", (Date) venda.getData());
@@ -40,7 +39,7 @@ public class VendaDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             VendaVO venda = (VendaVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_VENDA (?, ?, ?, ?)}");
 
             stm.setInt("IDVENDA", venda.getCodigo());
             stm.setDouble("PRECO_VENDA", venda.getPreco());
@@ -59,7 +58,7 @@ public class VendaDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_VENDA (?)}");
             stm.setInt("IDVENDA", id);
             stm.execute();
             return true;
@@ -73,7 +72,7 @@ public class VendaDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_VENDA (?)}");
             stm.setInt("IDVENDA", id);
             ResultSet result = stm.executeQuery();
             result.next();
@@ -96,7 +95,7 @@ public class VendaDAO extends PadraoDAO {
     public ObservableList<PadraoVO> Listar(boolean flag) {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + "}");
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_VENDA}");
             ResultSet result = stm.executeQuery();
 
             while (result.next()) {

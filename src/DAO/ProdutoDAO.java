@@ -12,7 +12,6 @@ import java.sql.SQLException;
 public class ProdutoDAO extends PadraoDAO {
 
     public ProdutoDAO() {
-        tabela = "CATALOGO";
         conn = Database.getConnection();
     }
 
@@ -20,7 +19,7 @@ public class ProdutoDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             ProdutoVO prod = (ProdutoVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_CATALOGO (?, ?, ?, ?)}");
 
             stm.setString("desc_prod", prod.getDescricao());
             stm.setDouble("val_prod", prod.getPreco());
@@ -40,7 +39,7 @@ public class ProdutoDAO extends PadraoDAO {
     public boolean Alterar(PadraoVO obj) {
         try {
             ProdutoVO prod = (ProdutoVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_" + tabela + " (?, ?, ?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_ATUALIZA_CATALOGO (?, ?, ?, ?, ?)}");
 
             stm.setInt("idprod", prod.getCodigo());
             stm.setString("desc_prod", prod.getDescricao());
@@ -60,7 +59,7 @@ public class ProdutoDAO extends PadraoDAO {
     @Override
     public boolean Deletar(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_CATALOGO (?)}");
             stm.setInt("idprod", id);
             stm.execute();
             return true;
@@ -74,7 +73,7 @@ public class ProdutoDAO extends PadraoDAO {
     @Override
     public PadraoVO Ler(int id) {
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_CONSULTA_CATALOGO (?)}");
             stm.setInt("idprod", id);
             ResultSet result = stm.executeQuery();
             result.next();
@@ -98,7 +97,7 @@ public class ProdutoDAO extends PadraoDAO {
     public ObservableList<PadraoVO> Listar(boolean flag) {
         ObservableList<PadraoVO> list = FXCollections.observableArrayList();
         try {
-            CallableStatement stm = conn.prepareCall("{call SP_LISTA_" + tabela + " (?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_LISTA_CATALOGO (?)}");
             stm.setString("SN_ESTOQUE", flag ? "S" : "N");
             ResultSet result = stm.executeQuery();
 
