@@ -10,14 +10,14 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="catalogo.Controller">
-    <BorderPane minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="usuario.ControllerTable">
+    <BorderPane fx:id="border" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
         <center>
-            <TableView prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER" fx:id="tbUsuarios">
+            <TableView fx:id="tbUsuarios" prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER">
                 <columns>
-                    <TableColumn fx:id="colCodigo" prefWidth="60.0" text="Código" />
-                    <TableColumn fx:id="colNome" prefWidth="320.0" text="Usuário" />
-                    <TableColumn fx:id="colAcesso" minWidth="0.0" prefWidth="187.0" text="Tipo de Acesso" />
+                    <TableColumn fx:id="colCodigo" prefWidth="83.0" text="Código" />
+                    <TableColumn fx:id="colNome" prefWidth="570.0" text="Usuário" />
+                    <TableColumn fx:id="colAcesso" minWidth="0.0" prefWidth="144.0" text="Administrador" />
                 </columns>
             </TableView>
         </center>

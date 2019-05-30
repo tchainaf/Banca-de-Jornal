@@ -1,25 +1,26 @@
 package fornecedor;
 
-import DAO.*;
-import VO.*;
-import util.*;
+import DAO.FornecedorDAO;
+import VO.FornecedorVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
+import util.Show;
 
-public class Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
     FornecedorDAO dao = new FornecedorDAO();
 
-    @FXML
-    Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
+    @FXML Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
+    @FXML TextField txtCodigo, txtNome, txtCNPJ, txtEndereco, txtTelefone, txtPesquisa;
 
-    @FXML
-    TextField txtCodigo, txtNome, txtCNPJ, txtEndereco, txtTelefone, txtPesquisa;
-
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         HabilitaCampos(false);
     }
 
@@ -56,9 +57,12 @@ public class Controller {
 
         txtCodigo.setText(String.valueOf(forn.getCodigo()));
         txtNome.setText(forn.getNome());
-        txtCNPJ.setText(forn.getCNPJ());
+        txtCNPJ.setText(forn.getCnpj());
         txtEndereco.setText(forn.getEndereco());
         txtTelefone.setText(forn.getTelefone());
+
+        btnAlterar.setDisable(false);
+        btnDeletar.setDisable(false);
     }
 
     public void cancelarForn(ActionEvent actionEvent) {
@@ -73,7 +77,7 @@ public class Controller {
 
                 txtCodigo.setText(String.valueOf(forn.getCodigo()));
                 txtNome.setText(forn.getNome());
-                txtCNPJ.setText(forn.getCNPJ());
+                txtCNPJ.setText(forn.getCnpj());
                 txtEndereco.setText(forn.getEndereco());
                 txtTelefone.setText(forn.getTelefone());
             }
@@ -92,9 +96,9 @@ public class Controller {
             }
 
             FornecedorVO forn = new FornecedorVO();
-            forn.setCodigo(txtCodigo.getText() == null ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
+            forn.setCodigo((txtCodigo.getText() == null || txtCodigo.getText().isEmpty()) ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             forn.setNome(txtNome.getText());
-            forn.setCNPJ(txtCNPJ.getText());
+            forn.setCnpj(txtCNPJ.getText());
             forn.setEndereco(txtEndereco.getText());
             forn.setTelefone(txtTelefone.getText());
 
@@ -120,10 +124,11 @@ public class Controller {
     }
 
     private void HabilitaCampos(boolean edit) {
+        btnAlterar.setDisable(true);
+        btnDeletar.setDisable(true);
+
         if (edit) {
             btnCadastrar.setDisable(true);
-            btnAlterar.setDisable(true);
-            btnDeletar.setDisable(true);
             btnCancelar.setDisable(false);
             btnSalvar.setDisable(false);
 
@@ -134,8 +139,6 @@ public class Controller {
             txtPesquisa.setDisable(true);
         } else {
             btnCadastrar.setDisable(false);
-            btnAlterar.setDisable(false);
-            btnDeletar.setDisable(false);
             btnCancelar.setDisable(true);
             btnSalvar.setDisable(true);
 
@@ -165,5 +168,6 @@ public class Controller {
         txtCNPJ.setText(null);
         txtEndereco.setText(null);
         txtTelefone.setText(null);
+        txtPesquisa.setText(null);
     }
 }

@@ -1,29 +1,26 @@
 package usuario;
 
-import DAO.*;
-import VO.*;
-import util.*;
+import DAO.UsuarioDAO;
+import VO.UsuarioVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import util.Show;
 
-public class Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
     UsuarioDAO dao = new UsuarioDAO();
 
-    @FXML
-    Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
+    @FXML Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
+    @FXML TextField txtCodigo, txtNome, txtPesquisa;
+    @FXML PasswordField txtSenha, txtConfSenha;
+    @FXML RadioButton rbtnAdmin, rbtnComum;
 
-    @FXML
-    TextField txtCodigo, txtNome, txtPesquisa;
-
-    @FXML
-    PasswordField txtSenha, txtConfSenha;
-
-    @FXML
-    RadioButton rbtnAdmin, rbtnComum;
-
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         HabilitaCampos(false);
     }
 
@@ -61,10 +58,17 @@ public class Controller {
         txtCodigo.setText(String.valueOf(user.getCodigo()));
         txtNome.setText(user.getNome());
         txtSenha.setText(user.getSenha());
-        if (user.isAdmin())
+        if (user.isAdmin()) {
             rbtnAdmin.setSelected(true);
-        else
+            rbtnComum.setSelected(false);
+        }
+        else {
+            rbtnAdmin.setSelected(false);
             rbtnComum.setSelected(true);
+        }
+
+        btnAlterar.setDisable(false);
+        btnDeletar.setDisable(false);
     }
 
     public void cancelarUser(ActionEvent actionEvent) {
@@ -80,10 +84,14 @@ public class Controller {
                 txtCodigo.setText(String.valueOf(user.getCodigo()));
                 txtNome.setText(user.getNome());
                 txtSenha.setText(user.getSenha());
-                if (user.isAdmin())
+                if (user.isAdmin()) {
                     rbtnAdmin.setSelected(true);
-                else
+                    rbtnComum.setSelected(false);
+                }
+                else {
+                    rbtnAdmin.setSelected(false);
                     rbtnComum.setSelected(true);
+                }
             }
             HabilitaCampos(false);
         } catch (Exception e) {
@@ -100,7 +108,7 @@ public class Controller {
             }
 
             UsuarioVO user = new UsuarioVO();
-            user.setCodigo(txtCodigo.getText() == null ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
+            user.setCodigo((txtCodigo.getText() == null || txtCodigo.getText().isEmpty()) ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             user.setNome(txtNome.getText());
             user.setSenha(txtSenha.getText());
             user.setAdmin(rbtnAdmin.isSelected());
@@ -127,10 +135,11 @@ public class Controller {
     }
 
     private void HabilitaCampos(boolean edit) {
+        btnAlterar.setDisable(true);
+        btnDeletar.setDisable(true);
+
         if (edit) {
             btnCadastrar.setDisable(true);
-            btnAlterar.setDisable(true);
-            btnDeletar.setDisable(true);
             btnCancelar.setDisable(false);
             btnSalvar.setDisable(false);
 
@@ -142,8 +151,6 @@ public class Controller {
             rbtnComum.setDisable(false);
         } else {
             btnCadastrar.setDisable(false);
-            btnAlterar.setDisable(false);
-            btnDeletar.setDisable(false);
             btnCancelar.setDisable(true);
             btnSalvar.setDisable(true);
 
@@ -175,6 +182,7 @@ public class Controller {
         txtNome.setText(null);
         txtSenha.setText(null);
         txtConfSenha.setText(null);
+        txtPesquisa.setText(null);
         rbtnAdmin.setSelected(false);
         rbtnComum.setSelected(false);
     }

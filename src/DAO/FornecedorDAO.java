@@ -23,11 +23,12 @@ public class FornecedorDAO extends PadraoDAO {
             CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?, ?)}");
 
             stm.setString("RAZAO_SOCIAL", forn.getNome());
-            stm.setString("CNPJ", forn.getCNPJ());
+            stm.setString("CNPJ", forn.getCnpj());
             stm.setString("ENDERECO", forn.getEndereco());
             stm.setString("TELEFONE", forn.getTelefone());
 
-            return stm.execute();
+            stm.execute();
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,11 +44,12 @@ public class FornecedorDAO extends PadraoDAO {
 
             stm.setInt("IDFORNECEDOR", forn.getCodigo());
             stm.setString("RAZAO_SOCIAL", forn.getNome());
-            stm.setString("CNPJ", forn.getCNPJ());
+            stm.setString("CNPJ", forn.getCnpj());
             stm.setString("ENDERECO", forn.getEndereco());
             stm.setString("TELEFONE", forn.getTelefone());
 
-            return stm.execute();
+            stm.execute();
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -60,7 +62,8 @@ public class FornecedorDAO extends PadraoDAO {
         try {
             CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
             stm.setInt("IDFORNECEDOR", id);
-            return stm.execute();
+            stm.execute();
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -79,7 +82,7 @@ public class FornecedorDAO extends PadraoDAO {
             FornecedorVO forn = new FornecedorVO();
             forn.setCodigo(result.getInt("IDFORNECEDOR"));
             forn.setNome(result.getString("RAZAO_SOCIAL"));
-            forn.setCNPJ(result.getString("CNPJ"));
+            forn.setCnpj(result.getString("CNPJ"));
             forn.setEndereco(result.getString("ENDERECO"));
             forn.setTelefone(result.getString("TELEFONE"));
 
@@ -102,7 +105,7 @@ public class FornecedorDAO extends PadraoDAO {
                 FornecedorVO forn = new FornecedorVO();
                 forn.setCodigo(result.getInt("IDFORNECEDOR"));
                 forn.setNome(result.getString("RAZAO_SOCIAL"));
-                forn.setCNPJ(result.getString("CNPJ"));
+                forn.setCnpj(result.getString("CNPJ"));
                 forn.setEndereco(result.getString("ENDERECO"));
                 forn.setTelefone(result.getString("TELEFONE"));
                 list.add(forn);

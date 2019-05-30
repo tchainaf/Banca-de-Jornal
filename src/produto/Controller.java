@@ -1,27 +1,34 @@
 package produto;
 
-import DAO.*;
-import VO.*;
-import util.*;
+import DAO.FornecedorDAO;
+import DAO.ProdutoDAO;
+import VO.ProdutoVO;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import util.Show;
 
-public class Controller {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class Controller implements Initializable {
     ProdutoDAO dao = new ProdutoDAO();
 
-    @FXML
-    Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
+    @FXML Button btnCancelar, btnSalvar, btnCadastrar, btnAlterar, btnDeletar;
+    @FXML TextField txtCodigo, txtDescricao, txtPreco, txtPesquisa;
+    @FXML ComboBox cbxFornecedor;
 
-    @FXML
-    TextField txtCodigo, txtDescricao, txtPreco, txtPesquisa;
-
-    @FXML
-    ComboBox cbxFornecedor;
-
-    @FXML
-    public void initialize() {
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         HabilitaCampos(false);
+
+        FornecedorDAO forn = new FornecedorDAO();
+        cbxFornecedor.setItems(forn.Listar(true));
+        //cbxFornecedor.setCellFactory(new Pro);
     }
 
     public void novoProduto(ActionEvent actionEvent) {
@@ -59,6 +66,9 @@ public class Controller {
         txtDescricao.setText(prod.getDescricao());
         cbxFornecedor.setValue(prod.getFornecedor());
         txtPreco.setText(String.valueOf(prod.getPreco()));
+
+        btnAlterar.setDisable(false);
+        btnDeletar.setDisable(false);
     }
 
     public void cancelarProduto(ActionEvent actionEvent) {
@@ -91,7 +101,7 @@ public class Controller {
             }
 
             ProdutoVO prod = new ProdutoVO();
-            prod.setCodigo(txtCodigo.getText() == null ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
+            prod.setCodigo((txtCodigo.getText() == null || txtCodigo.getText().isEmpty()) ? 0 : Integer.valueOf(txtCodigo.getText().trim()));
             prod.setDescricao(txtDescricao.getText());
             prod.setFornecedor(0); //cbxFornecedor.getValue()
             prod.setPreco(Double.valueOf(txtPreco.getText()));
@@ -118,10 +128,11 @@ public class Controller {
     }
 
     private void HabilitaCampos(boolean edit) {
+        btnAlterar.setDisable(true);
+        btnDeletar.setDisable(true);
+
         if (edit) {
             btnCadastrar.setDisable(true);
-            btnAlterar.setDisable(true);
-            btnDeletar.setDisable(true);
             btnCancelar.setDisable(false);
             btnSalvar.setDisable(false);
 
@@ -131,8 +142,6 @@ public class Controller {
             txtPesquisa.setDisable(true);
         } else {
             btnCadastrar.setDisable(false);
-            btnAlterar.setDisable(false);
-            btnDeletar.setDisable(false);
             btnCancelar.setDisable(true);
             btnSalvar.setDisable(true);
 
@@ -158,5 +167,6 @@ public class Controller {
         txtDescricao.setText(null);
         cbxFornecedor.setValue(null);
         txtPreco.setText(null);
+        txtPesquisa.setText(null);
     }
 }

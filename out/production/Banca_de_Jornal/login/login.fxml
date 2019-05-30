@@ -18,7 +18,7 @@
 <center>
     <BorderPane maxHeight="248.0" maxWidth="200.0" prefHeight="248.0" prefWidth="200.0" BorderPane.alignment="CENTER">
         <top>
-            <HBox prefHeight="120.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+            <HBox prefHeight="120.0" prefWidth="200.0" BorderPane.alignment="BOTTOM_CENTER">
                 <children>
                     <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0" spacing="30.0">
                         <children>
@@ -37,7 +37,7 @@
                     </VBox>
                 </children>
                   <BorderPane.margin>
-                     <Insets top="20.0" />
+                     <Insets top="50.0" />
                   </BorderPane.margin>
             </HBox>
         </top>
@@ -46,6 +46,9 @@
                 <children>
                     <Button fx:id="btnLogin" defaultButton="true" mnemonicParsing="false" onAction="#checkLogin" prefHeight="25.0" prefWidth="100.0" text="Entrar" />
                 </children>
+                  <BorderPane.margin>
+                     <Insets />
+                  </BorderPane.margin>
             </VBox>
         </bottom>
     </BorderPane>
@@ -65,7 +68,7 @@
     </VBox>
 </top>
     <bottom>
-        <VBox alignment="CENTER" prefHeight="113.0" prefWidth="200.0" spacing="5.0" BorderPane.alignment="CENTER">
+        <VBox alignment="CENTER" prefHeight="45.0" prefWidth="600.0" spacing="5.0" BorderPane.alignment="CENTER">
             <children>
                 <Button mnemonicParsing="false" onAction="#go" prefHeight="25.0" prefWidth="100.0" text="Testar" />
             </children>
