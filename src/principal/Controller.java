@@ -53,10 +53,10 @@ public class Controller implements Initializable {
 
     public void abrirCompra(ActionEvent actionEvent) {
         try {
+            dev = false;
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//compra_devolucao//compra.fxml"));
             tela.setCenter(loader);
-            dev = false;
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -65,10 +65,10 @@ public class Controller implements Initializable {
 
     public void abrirDevolucao(ActionEvent actionEvent) {
         try {
+            dev = true;
             corBotoes ((Button) actionEvent.getSource());
             Parent loader = FXMLLoader.load(this.getClass().getResource("..//compra_devolucao//devolucao.fxml"));
             tela.setCenter(loader);
-            dev = true;
         } catch(Exception e) {
             e.printStackTrace();
         }

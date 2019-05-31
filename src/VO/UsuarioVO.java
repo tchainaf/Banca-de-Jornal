@@ -3,6 +3,7 @@ package VO;
 public class UsuarioVO extends PadraoVO {
     private String nome;
     private String senha;
+    private String tipoAcesso;
     private boolean admin;
 
     public String getNome() {
@@ -27,5 +28,11 @@ public class UsuarioVO extends PadraoVO {
 
     public void setAdmin(boolean admin) {
         this.admin = admin;
+    }
+
+    public String getTipoAcesso(){
+        if(isAdmin())
+            return "Administrador";
+        return "Comum";
     }
 }

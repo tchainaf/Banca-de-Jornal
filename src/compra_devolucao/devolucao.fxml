@@ -30,7 +30,7 @@
             </HBox>
         </top>
         <center>
-            <TableView BorderPane.alignment="CENTER" fx:id="tbItens">
+            <TableView BorderPane.alignment="CENTER" fx:id="tbItens" onMouseClicked="#alterQtde">
                 <columns>
                     <TableColumn fx:id="colDescricao" prefWidth="464.0" text="Item" />
                     <TableColumn fx:id="colQtde" minWidth="0.0" prefWidth="94.0" text="Quantidade" editable="true" />

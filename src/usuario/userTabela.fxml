@@ -16,8 +16,8 @@
             <TableView fx:id="tbUsuarios" prefHeight="369.0" prefWidth="628.0" BorderPane.alignment="CENTER">
                 <columns>
                     <TableColumn fx:id="colCodigo" prefWidth="83.0" text="Código" />
-                    <TableColumn fx:id="colNome" prefWidth="570.0" text="Usuário" />
-                    <TableColumn fx:id="colAcesso" minWidth="0.0" prefWidth="144.0" text="Administrador" />
+                    <TableColumn fx:id="colNome" prefWidth="550.0" text="Nome do usuário" />
+                    <TableColumn fx:id="colAcesso" minWidth="0.0" prefWidth="164.0" text="Tipo de Acesso" />
                 </columns>
             </TableView>
         </center>

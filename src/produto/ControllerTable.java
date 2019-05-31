@@ -47,6 +47,8 @@ public class ControllerTable implements Initializable {
             stage.setScene(new Scene(loader));
             stage.show();
 
+            //TODO: atualizar tabela
+
         } catch(Exception e) {
             e.printStackTrace();
         }

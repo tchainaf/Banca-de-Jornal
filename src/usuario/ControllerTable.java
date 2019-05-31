@@ -23,14 +23,13 @@ public class ControllerTable implements Initializable {
     TableView<PadraoVO> tbUsuarios;
     @FXML
     TableColumn<UsuarioVO, Integer> colCodigo;
-    @FXML TableColumn<UsuarioVO, String> colNome;
-    @FXML TableColumn<UsuarioVO, Boolean> colAcesso;
+    @FXML TableColumn<UsuarioVO, String> colNome, colAcesso;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         colCodigo.setCellValueFactory(new PropertyValueFactory<UsuarioVO, Integer>("codigo"));
         colNome.setCellValueFactory(new PropertyValueFactory<UsuarioVO, String>("nome"));
-        colAcesso.setCellValueFactory(new PropertyValueFactory<UsuarioVO, Boolean>("admin"));
+        colAcesso.setCellValueFactory(new PropertyValueFactory<UsuarioVO, String>("tipoAcesso"));
 
         UsuarioDAO dao = new UsuarioDAO();
         ObservableList<PadraoVO> list = dao.Listar(true);
@@ -45,7 +44,9 @@ public class ControllerTable implements Initializable {
             Stage stage = new Stage();
             stage.setTitle("Gerenciamento de Usuários");
             stage.setScene(new Scene(loader));
-            stage.show();
+            stage.showAndWait();
+
+            //TODO: atualizar tabela
 
         } catch(Exception e) {
             e.printStackTrace();

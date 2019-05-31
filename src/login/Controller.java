@@ -12,8 +12,6 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import util.Show;
 
-import java.io.IOException;
-
 
 public class Controller {
     @FXML
@@ -51,22 +49,6 @@ public class Controller {
             novaTela.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("..//principal//principal.fxml"))));
             novaTela.show();
         } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void go(ActionEvent actionEvent) {
-        admin = true;
-
-        try {
-            Stage tela = (Stage) ((Node) actionEvent.getSource()).getScene().getWindow();
-            tela.close();
-
-            Stage novaTela = new Stage();
-            novaTela.setTitle("Banca de Jornal");
-            novaTela.setScene(new Scene(FXMLLoader.load(this.getClass().getResource("..//principal//principal.fxml"))));
-            novaTela.show();
-        } catch (IOException e) {
             e.printStackTrace();
         }
     }

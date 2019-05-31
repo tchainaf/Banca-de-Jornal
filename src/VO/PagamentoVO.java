@@ -24,4 +24,9 @@ public class PagamentoVO {
         sigla = sg;
         descricao = desc;
     }
+
+    @Override
+    public String toString(){
+        return getDescricao();
+    }
 }

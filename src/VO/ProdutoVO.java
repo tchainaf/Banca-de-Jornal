@@ -7,6 +7,7 @@ public class ProdutoVO extends PadraoVO {
     private int qtdeEstoque;
     private int qtde;
     private double valorTotal;
+    private int idMov;
 
     public String getDescricao() {
         return descricao;
@@ -56,8 +57,16 @@ public class ProdutoVO extends PadraoVO {
         this.valorTotal = valorTotal;
     }
 
+    public int getIdMov() {
+        return idMov;
+    }
+
+    public void setIdMov(int idMov) {
+        this.idMov = idMov;
+    }
+
     @Override
     public String toString(){
-        return descricao;
+        return getDescricao();
     }
 }

@@ -14,6 +14,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import util.Show;
 
@@ -25,6 +26,7 @@ import java.util.ResourceBundle;
 public class Controller implements Initializable {
     boolean devolucao = false;
     CompraDevolucaoDAO dao;
+    private double preco = 0;
 
     @FXML TextField txtValorTotal;
     @FXML ComboBox<PadraoVO> cbxFornecedor;
@@ -41,15 +43,6 @@ public class Controller implements Initializable {
         colQtde.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Integer>("qtde"));
         colPreco.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Double>("preco"));
         colPrecoTotal.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Double>("valorTotal"));
-
-        //TODO: habilitar edição da qtde
-//        colQtde.setCellFactory(new Callback<TableColumn<ProdutoVO, Integer>, TableCell<ProdutoVO, Integer>>() {
-//            @Override
-//            public TableCell<ProdutoVO, Integer> call(
-//                    TableColumn<ProdutoVO, Integer> arg0) {
-//                return Integer.();
-//            }
-//        });
 
         devolucao = principal.Controller.isDevolucao();
         dao = new CompraDevolucaoDAO(devolucao);
@@ -87,6 +80,11 @@ public class Controller implements Initializable {
                 return;
             }
 
+            if(!dao.AddItens(tbItens.getItems(), dao.idMov, devolucao)) {
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da compra! Tente novamente.", false);
+                return;
+            }
+
             Show.MessageBox(Alert.AlertType.INFORMATION, "Os dados da compra foram salvos com sucesso!", false);
 
             tbItens.setItems(null);
@@ -99,6 +97,11 @@ public class Controller implements Initializable {
     public void concluirDev(ActionEvent actionEvent) {
         try {
             if(!InsereRegistro()) {
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da devolução! Tente novamente.", false);
+                return;
+            }
+
+            if(!dao.AddItens(tbItens.getItems(), dao.idMov, devolucao)) {
                 Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da devolução! Tente novamente.", false);
                 return;
             }
@@ -119,6 +122,30 @@ public class Controller implements Initializable {
             stage.setTitle("Gerenciamento de Produtos");
             stage.setScene(new Scene(loader));
             stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void alterQtde(MouseEvent mouseEvent) {
+        try {
+            ProdutoVO p = (ProdutoVO) tbItens.getSelectionModel().getSelectedItem();
+            ControllerAdd.produto = p;
+
+            Parent loader = FXMLLoader.load(this.getClass().getResource("..//compra_devolucao//addItens.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Alterar Quantidade");
+            stage.setScene(new Scene(loader));
+            stage.showAndWait();
+
+            p = ((ProdutoVO) tbItens.getSelectionModel().getSelectedItem());
+            p.setQtde(ControllerAdd.produto.getQtde());
+            p.setValorTotal(p.getPreco() * p.getQtde());
+            tbItens.refresh();
+
+            preco += p.getValorTotal();
+            txtValorTotal.setText(String.valueOf(preco));
+
         } catch (Exception e) {
             e.printStackTrace();
         }

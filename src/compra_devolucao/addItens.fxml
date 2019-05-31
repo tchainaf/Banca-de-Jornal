@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<GridPane xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="compra_devolucao.ControllerAdd">
+    <BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="248.0" prefWidth="355.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+        <center>
+            <HBox maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="139.0" prefWidth="284.0" BorderPane.alignment="CENTER">
+                <children>
+                    <VBox alignment="CENTER_RIGHT" prefHeight="150.0" prefWidth="104.0" spacing="25.0">
+                        <children>
+                            <Label text="Produto" />
+                            <Label text="Quantidade" />
+                        </children>
+                        <opaqueInsets>
+                            <Insets />
+                        </opaqueInsets>
+                        <padding>
+                            <Insets right="10.0" />
+                        </padding>
+                    </VBox>
+                    <VBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="146.0" spacing="20.0">
+                        <children>
+                            <TextField fx:id="txtProduto" prefWidth="150.0" disable="true"/>
+                            <TextField styleClass="number" fx:id="txtQtde" maxWidth="-Infinity" prefWidth="50.0" />
+                        </children>
+                    </VBox>
+                </children>
+            </HBox>
+        </center>
+        <bottom>
+            <VBox alignment="TOP_CENTER" prefHeight="43.0" prefWidth="504.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Button mnemonicParsing="false" onAction="#incluirItem" text="Adicionar" />
+                </children>
+            </VBox>
+        </bottom>
+        <top>
+            <VBox alignment="BOTTOM_CENTER" prefHeight="48.0" prefWidth="355.0" BorderPane.alignment="CENTER">
+                <children>
+                    <Label prefHeight="38.0" prefWidth="158.0" text="Adicionar Itens">
+                        <font>
+                            <Font size="24.0" />
+                        </font>
+                        <padding>
+                            <Insets top="20.0" />
+                        </padding>
+                    </Label>
+                </children>
+            </VBox>
+        </top>
+    </BorderPane>
+   <columnConstraints>
+      <ColumnConstraints />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints />
+   </rowConstraints>
+</GridPane>

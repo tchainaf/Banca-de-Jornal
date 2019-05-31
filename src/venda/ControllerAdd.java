@@ -33,9 +33,8 @@ public class ControllerAdd implements Initializable {
             cbxItens.setItems(list);
         else {
             Show.MessageBox(Alert.AlertType.WARNING, "Não há produtos em estoque!", false);
-            //TODO: fechar tela
-//            Stage tela = (Stage) ((Node) getSource()).getScene().getWindow();
-//            tela.close();
+            Stage tela = (Stage) txtQtde.getScene().getWindow();
+            tela.close();
         }
     }
 
@@ -49,6 +48,7 @@ public class ControllerAdd implements Initializable {
                 return;
             }
 
+            //TODO: checar qtde com o estoque
             ProdutoVO item = (ProdutoVO) cbxItens.getValue();
             item.setQtde(Integer.getInteger(txtQtde.getText().trim()));
             item.setValorTotal(item.getQtde() * produto.getPreco());

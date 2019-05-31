@@ -1,16 +1,19 @@
 package DAO;
 
-import VO.*;
+import VO.CompraDevolucaoVO;
+import VO.PadraoVO;
+import VO.ProdutoVO;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.Database;
 
 import java.sql.CallableStatement;
-import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Types;
 
 public class CompraDevolucaoDAO extends PadraoDAO {
+    public int idMov = 0;
     String tabela;
     public int idFornecedor;
 
@@ -26,13 +29,16 @@ public class CompraDevolucaoDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             CompraDevolucaoVO compra = (CompraDevolucaoVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_" + tabela + " (?, ?, ?, ?)}");
 
             stm.setInt("IDFORNECEDOR", compra.getIdFornecedor());
             stm.setDouble("PRECO_VENDA", compra.getPreco());
-            stm.setDate("DATA_VENDA", (Date) compra.getData());
+            stm.setDate("DATA_VENDA", new java.sql.Date(compra.getData().getDate()));
+            stm.registerOutParameter("IDVENDA", Types.INTEGER);
 
-            return stm.execute();
+            stm.execute();
+            idMov = stm.getInt("IDVENDA");
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -49,9 +55,10 @@ public class CompraDevolucaoDAO extends PadraoDAO {
             stm.setInt("ID", compra.getCodigo());
             stm.setInt("IDFORNECEDOR", compra.getIdFornecedor());
             stm.setDouble("PRECO_VENDA", compra.getPreco());
-            stm.setDate("DATA_VENDA", (Date) compra.getData());
+            stm.setDate("DATA_VENDA", new java.sql.Date(compra.getData().getDate()));
 
-            return stm.execute();
+            stm.execute();
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -64,7 +71,9 @@ public class CompraDevolucaoDAO extends PadraoDAO {
         try {
             CallableStatement stm = conn.prepareCall("{call SP_EXCLUI_" + tabela + " (?)}");
             stm.setInt("ID", id);
-            return stm.execute();
+
+            stm.execute();
+            return true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -124,5 +133,28 @@ public class CompraDevolucaoDAO extends PadraoDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean AddItens(ObservableList<PadraoVO> list, int idVenda, boolean flag) {
+        try {
+            for (PadraoVO item : list) {
+
+                ProdutoVO prod = (ProdutoVO) item;
+                prod.setIdMov(idVenda);
+                CallableStatement stm = conn.prepareCall("{call SP_INSERE_PRODUTO_COMPRA (?, ?, ?, ?, ?)}");
+
+                stm.setInt("IDPRODUTO", prod.getCodigo());
+                stm.setInt("IDCOMPRA", prod.getIdMov());
+                stm.setInt("QUANTIDADE_COMPRA", prod.getQtde());
+                stm.setDouble("PRECO_UNITARIO", prod.getPreco());
+                stm.setString("SN_DEVOLUCAO", flag ? "S" : "N");
+
+                stm.execute();
+            }
+            return true;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

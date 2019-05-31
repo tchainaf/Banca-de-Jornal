@@ -5,12 +5,10 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import util.Database;
 
-import java.sql.CallableStatement;
-import java.sql.Date;
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import java.sql.*;
 
 public class VendaDAO extends PadraoDAO {
+    public int idMov = 0;
 
     public VendaDAO() {
         conn = Database.getConnection();
@@ -20,13 +18,15 @@ public class VendaDAO extends PadraoDAO {
     public boolean Inserir(PadraoVO obj) {
         try {
             VendaVO venda = (VendaVO) obj;
-            CallableStatement stm = conn.prepareCall("{call SP_INSERE_VENDA (?, ?, ?)}");
+            CallableStatement stm = conn.prepareCall("{call SP_INSERE_VENDA (?, ?, ?, ?)}");
 
             stm.setDouble("PRECO_VENDA", venda.getPreco());
-            stm.setDate("DATA_VENDA", (Date) venda.getData());
+            stm.setDate("DATA_VENDA", new java.sql.Date(venda.getData().getDate()));
             stm.setString("TP_PAGAMENTO", venda.getTipo());
+            stm.registerOutParameter("IDVENDA", Types.INTEGER);
 
             stm.execute();
+            idMov = stm.getInt("IDVENDA");
             return true;
 
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public class VendaDAO extends PadraoDAO {
 
             stm.setInt("IDVENDA", venda.getCodigo());
             stm.setDouble("PRECO_VENDA", venda.getPreco());
-            stm.setDate("DATA_VENDA", (Date) venda.getData());
+            stm.setDate("DATA_VENDA", new java.sql.Date(venda.getData().getDate()));
             stm.setString("TP_PAGAMENTO", venda.getTipo());
 
             stm.execute();
@@ -112,5 +112,27 @@ public class VendaDAO extends PadraoDAO {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public boolean AddItens(ObservableList<PadraoVO> list, int idVenda) {
+        try {
+            for (PadraoVO item : list) {
+
+                ProdutoVO prod = (ProdutoVO) item;
+                prod.setIdMov(idVenda);
+                CallableStatement stm = conn.prepareCall("{call SP_INSERE_PRODUTO_VENDA (?, ?, ?, ?)}");
+
+                stm.setInt("IDPRODUTO", prod.getCodigo());
+                stm.setInt("IDVENDA", prod.getIdMov());
+                stm.setInt("QUANTIDADE_VENDA", prod.getQtde());
+                stm.setDouble("PRECO_UNITARIO", prod.getPreco());
+
+                stm.execute();
+            }
+            return true;
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 }

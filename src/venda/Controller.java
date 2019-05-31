@@ -5,6 +5,8 @@ import VO.PadraoVO;
 import VO.PagamentoVO;
 import VO.ProdutoVO;
 import VO.VendaVO;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -38,9 +40,10 @@ public class Controller implements Initializable {
         colPreco.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Double>("preco"));
         colPrecoTotal.setCellValueFactory(new PropertyValueFactory<ProdutoVO, Double>("valorTotal"));
 
-        //TODO: preencher combobox do modo de pagamento
-//        ObservableList<PagamentoVO> list = new FXCollections.observableArrayList(new PagamentoVO("D", "Dinheiro"), new PagamentoVO("C", "Cartão"));
-//        cbxPagamento.setItems(list);
+        ObservableList<PagamentoVO> list = FXCollections.observableArrayList();
+        list.add(new PagamentoVO("D", "Dinheiro"));
+        list.add(new PagamentoVO("C", "Cartão"));
+        cbxPagamento.setItems(list);
     }
 
     public void concluirVenda(ActionEvent actionEvent) {
@@ -52,6 +55,11 @@ public class Controller implements Initializable {
 
             VendaDAO dao = new VendaDAO();
             if(!dao.Inserir(venda)) {
+                Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da venda! Tente novamente.", false);
+                return;
+            }
+
+            if(!dao.AddItens(tbItens.getItems(), dao.idMov)) {
                 Show.MessageBox(Alert.AlertType.ERROR, "Erro ao salvar os dados da venda! Tente novamente.", false);
                 return;
             }
